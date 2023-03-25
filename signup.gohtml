@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@1.*/css/pico.min.css">
+    <title>ParX Signup</title>
+</head>
+<body>
+<main class="container">
+    <div>
+        <article class="grid">
+            <div>
+                <hgroup>
+                    <h1><kbd><strong>ParX</strong></kbd></h1>
+                    <h6>
+                        <blockquote>
+                            "The shortest distance between two points is a straight line."
+                            <footer>
+                                <cite>- Archimedes</cite>
+                            </footer>
+                        </blockquote>
+                    </h6>
+                </hgroup>
+            </div>
+            <form>
+                <input type="text" id="name" name="name" placeholder="Name" required="required">
+                <select id="grade" name="grade" required="required">
+                    <option value="" selected="">Grade</option>
+                    <option>9</option>
+                    <option>10</option>
+                    <option>11</option>
+                    <option>12</option>
+                </select>
+                <input type="number" id="studentID" max="9999999" name="studentID" placeholder="Student ID #"
+                       required="required">
+                <input type="password" id="password" name="password" placeholder="Password" required="required">
+                <button type="submit" class="primary">Sign Up</button>
+                <a href="/login">
+                    <text>Log In</text>
+                </a>
+            </form>
+        </article>
+    </div>
+</main>
+</body>
+</html>
