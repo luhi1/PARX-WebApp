@@ -23,7 +23,11 @@
                     </h6>
                 </hgroup>
             </div>
-            <form>
+
+            <form action="./validation" method="POST">
+                <kbd>
+                    <text>{{.ErrorDescription}}</text>
+                </kbd>
                 <input type="text" id="name" name="name" placeholder="Name" required="required">
                 <select id="grade" name="grade" required="required">
                     <option value="" selected="">Grade</option>
@@ -32,7 +36,7 @@
                     <option>11</option>
                     <option>12</option>
                 </select>
-                <input type="number" id="studentID" max="9999999" name="studentID" placeholder="Student ID #"
+                <input type="number" id="studentNumber" max="9999999" name="studentNumber" placeholder="Student ID #"
                        required="required">
                 <input type="password" id="password" name="password" placeholder="Password" required="required">
                 <button type="submit" class="primary">Sign Up</button>
