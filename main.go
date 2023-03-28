@@ -7,6 +7,7 @@ import (
 	"html/template"
 	"net/http"
 	"strconv"
+	"strings"
 )
 
 type userData struct {
@@ -20,16 +21,13 @@ type DisplayError struct {
 	ErrorDescription string
 }
 
-var userInfo = userData{
-	"",
-	-1,
-	-1,
-	"",
-}
+//USE POINTERS INSTEAD OF PACKAGE LEVEL STATE
+//ANY IF ERR != NIL RETURN STATEMENTS SHOULD BE FIXED LATER!
 
 // Start server run, files, and other shit.
 func main() {
 	credentialCheck := ""
+	userInfo := userData{}
 
 	http.HandleFunc("/login", func(writer http.ResponseWriter, request *http.Request) {
 		err := tplExec(writer, "login.gohtml", DisplayError{credentialCheck})
@@ -38,6 +36,7 @@ func main() {
 		}
 		credentialCheck = ""
 	})
+
 	http.HandleFunc("/signup", func(writer http.ResponseWriter, request *http.Request) {
 		err := tplExec(writer, "signup.gohtml", DisplayError{credentialCheck})
 		if err != nil {
@@ -46,7 +45,7 @@ func main() {
 		credentialCheck = ""
 	})
 
-	http.HandleFunc("/validation", func(writer http.ResponseWriter, request *http.Request) {
+	http.HandleFunc("/validation/", func(writer http.ResponseWriter, request *http.Request) {
 		var err error
 		err = request.ParseForm()
 		if err != nil {
@@ -60,41 +59,30 @@ func main() {
 
 		//Temporary error handling, fix one day
 		if err != nil {
-			userInfo = userData{
-				"",
-				-1,
-				-1,
-				"",
-			}
+			userInfo = userData{}
 			credentialCheck = "Invalid Credentials"
-			if request.Method == "POST" {
-				http.Redirect(writer, request, "./signup", 303)
+			if strings.TrimPrefix(request.URL.Path, "/validation/") == "signup" {
+				http.Redirect(writer, request, "../signup", 303)
 			} else {
-				http.Redirect(writer, request, "./login", 303)
+				http.Redirect(writer, request, "../login", 303)
 			}
 			return
 		}
 
-		if checkData(request.Method) {
-			http.Redirect(writer, request, "./home", 307)
+		if checkData(strings.TrimPrefix(request.URL.Path, "/validation/"), &userInfo) {
+			http.Redirect(writer, request, "../home", 307)
 		} else {
 			credentialCheck = "Invalid Credentials"
-			if request.Method == "POST" {
-				http.Redirect(writer, request, "./signup", 303)
+			if strings.TrimPrefix(request.URL.Path, "/validation/") == "signup" {
+				http.Redirect(writer, request, "../signup", 303)
 			} else {
-				http.Redirect(writer, request, "./login", 303)
-			}
-			userInfo = userData{
-				"",
-				-1,
-				-1,
-				"",
+				http.Redirect(writer, request, "../login", 303)
 			}
 		}
 	})
 
 	http.HandleFunc("/home", func(writer http.ResponseWriter, request *http.Request) {
-		if userInfo.IdNumber != -1 && userInfo.passwordHash != "" {
+		if (userInfo != userData{}) {
 			//SEMI-SCUFFED WAY OF MAKING THE USER NOT BE ABLE TO ACCESS HOME IF NOT LOGGED IN, CONSIDER USING COOKIES
 
 			//Here we should populate the rest of the userInfo struct with sql queries and load whatever else we need for the home page.
@@ -110,12 +98,7 @@ func main() {
 	})
 
 	http.HandleFunc("/logout", func(writer http.ResponseWriter, request *http.Request) {
-		userInfo = userData{
-			"",
-			-1,
-			-1,
-			"",
-		}
+		userInfo = userData{}
 		http.Redirect(writer, request, "./login", 307)
 	})
 
@@ -150,30 +133,28 @@ func tplExec(w http.ResponseWriter, filename string, information any) error {
 	return nil
 }
 
-func checkData(requestMethod string) bool {
+func checkData(requestMethod string, userInfo *userData) bool {
 
 	//Check if ID Number is blank or out of bounds
 	//Check if password is blank
-	if userInfo.IdNumber <= 0 ||
-		userInfo.IdNumber >= 9999999 ||
-		userInfo.passwordHash == hashPswd("") {
-		return false
+	valid := false
+	if (*userInfo != userData{}) &&
+		(userInfo.IdNumber > 0 &&
+			userInfo.IdNumber < 9999999 &&
+			userInfo.passwordHash != hashPswd("")) {
+
+		valid = true
 	}
 
-	//If on signup screen, make sure all info is filled out
-	//Check if grade is 9-12
-	if requestMethod == "POST" {
-		if userInfo.Name == "" || userInfo.Grade == -1 || userInfo.IdNumber == -1 || userInfo.passwordHash == "" {
-			return false
-		}
-		if userInfo.Grade != 9 && userInfo.Grade != 10 &&
-			userInfo.Grade != 11 && userInfo.Grade != 12 {
-			return false
-		}
+	if requestMethod == "signup" && ((userInfo.Grade != 9 && userInfo.Grade != 10 &&
+		userInfo.Grade != 11 && userInfo.Grade != 12) || userInfo.Name == "") {
+		valid = false
 	}
 	//here we can check if the password matches the one in our database
-	return true
+	*userInfo = userData{}
+	return valid
 }
+
 func hashPswd(pwd string) string {
 	hasher := sha256.New()
 	hasher.Write([]byte(pwd))

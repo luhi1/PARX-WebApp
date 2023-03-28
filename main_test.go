@@ -6,10 +6,14 @@ import (
 	"math/rand"
 	"net/http"
 	"net/http/httptest"
+	"strings"
 	"testing"
 	"time"
 )
 
+func TestJoe(t *testing.T) {
+	t.Logf(strings.TrimPrefix("http://localhost:8082/signup", "/"))
+}
 func TestHash(t *testing.T) {
 	rand.Seed(time.Now().Unix())
 	var passwords []string
@@ -48,11 +52,11 @@ func TestDataValidation(t *testing.T) {
 	rand.Seed(time.Now().Unix())
 	var testData userData
 	var expected bool
-	requestMethod := "POST"
+	requestMethod := "signup"
 
 	for i := 0; i < 1000; i++ {
 		if rand.Intn(2) != 0 {
-			requestMethod = "GET"
+			requestMethod = "login"
 		}
 
 		expected = false
@@ -66,33 +70,31 @@ func TestDataValidation(t *testing.T) {
 		testData.passwordHash = hashPswd(string(str))
 		testData.IdNumber = rand.Intn(9999999) + 1
 
-		punishment := rand.Intn(11)
-
 		if requestMethod == "POST" {
 			testData.Grade = rand.Intn(4) + 9
 			testData.Name = string(str)
-			if punishment > 5 {
-				testData.Grade = 13
-			} else if punishment > 7 {
-				testData.Name = ""
-			}
 		}
 
-		if punishment < 7 {
-			testData.IdNumber = 999999999999
-		} else if punishment < 5 {
+		punishment := rand.Intn(11)
+
+		if punishment%11 == 0 && requestMethod == "POST" {
+			testData.Grade = 13
+		} else if punishment%3 == 0 && requestMethod == "POST" {
+			testData.Name = ""
+		} else if punishment%5 == 0 {
 			testData.passwordHash = hashPswd("")
+		} else if punishment%7 == 0 {
+			testData.IdNumber = 999999999999
 		} else {
 			expected = true
 		}
 
-		userInfo = testData
-		if checkData(requestMethod) != expected {
+		if checkData(requestMethod, &testData) != expected {
 			t.Errorf("DID NOT STOP A BAD INPUT. Expected %t using method %s on iteration %d", expected, requestMethod, i)
-			t.Logf(userInfo.passwordHash)
-			t.Logf(userInfo.Name)
-			t.Logf("%d", userInfo.Grade)
-			t.Logf("%d", userInfo.IdNumber)
+			t.Logf(testData.passwordHash)
+			t.Logf(testData.Name)
+			t.Logf("%d", testData.Grade)
+			t.Logf("%d", testData.IdNumber)
 			return
 		}
 	}
