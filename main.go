@@ -151,7 +151,9 @@ func checkData(requestMethod string, userInfo *userData) bool {
 		valid = false
 	}
 	//here we can check if the password matches the one in our database
-	*userInfo = userData{}
+	if !valid {
+		*userInfo = userData{}
+	}
 	return valid
 }
 
