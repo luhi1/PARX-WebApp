@@ -54,23 +54,11 @@ func main() {
 		}
 		userInfo.Name = request.FormValue("name")
 		userInfo.Grade, err = strconv.Atoi(request.FormValue("grade"))
-		userInfo.IdNumber, err = strconv.Atoi(request.FormValue("studentNumber"))
+		userInfo.IdNumber, err = strconv.Atoi(request.FormValue("IdNumber"))
 		userInfo.passwordHash = hashPswd(request.FormValue("password"))
 
-		//Temporary error handling, fix one day
-		if err != nil {
-			userInfo = userData{}
-			credentialCheck = "Invalid Credentials"
-			if strings.TrimPrefix(request.URL.Path, "/validation/") == "signup" {
-				http.Redirect(writer, request, "../signup", 303)
-			} else {
-				http.Redirect(writer, request, "../login", 303)
-			}
-			return
-		}
-
-		if checkData(strings.TrimPrefix(request.URL.Path, "/validation/"), &userInfo) {
-			http.Redirect(writer, request, "../home", 307)
+		if err != nil || checkData(strings.TrimPrefix(request.URL.Path, "/validation/"), &userInfo) {
+			http.Redirect(writer, request, "../teacher_events", 307)
 		} else {
 			credentialCheck = "Invalid Credentials"
 			if strings.TrimPrefix(request.URL.Path, "/validation/") == "signup" {
@@ -81,14 +69,14 @@ func main() {
 		}
 	})
 
-	http.HandleFunc("/home", func(writer http.ResponseWriter, request *http.Request) {
+	http.HandleFunc("/teacher_events", func(writer http.ResponseWriter, request *http.Request) {
 		if (userInfo != userData{}) {
 			//SEMI-SCUFFED WAY OF MAKING THE USER NOT BE ABLE TO ACCESS HOME IF NOT LOGGED IN, CONSIDER USING COOKIES
 
 			//Here we should populate the rest of the userInfo struct with sql queries and load whatever else we need for the home page.
 			//Also, we need to find out how to get signup to upload to db and login to get
 			//We can probably just do different interactions for get/post requests to the home, same way we did
-			err := tplExec(writer, "home.gohtml", userInfo)
+			err := tplExec(writer, "teacher_events.gohtml", userInfo)
 			if err != nil {
 				return
 			}
@@ -114,7 +102,7 @@ func main() {
 	})
 
 	/*@todo: Add this to the setup wizard eventually */
-	fmt.Println("Server is running on port 8081")
+	fmt.Println("Server is running on port 8082")
 
 	err := http.ListenAndServe(":8082", nil)
 	if err != nil {

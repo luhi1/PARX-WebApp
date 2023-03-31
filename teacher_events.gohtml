@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@1.*/css/pico.min.css">
+  <title>ParX Login</title>
+</head>
+<body>
+  <nav class = "container-fluid" style="background: rgba(237,240,243,0.34);">
+    <ul>
+      <img src = "https://pluspng.com/img-png/logo-template-png-logo-templates-1655.png" alt = "icon" style="height: 40%; width: 5%">
+    </ul>
+    <ul>
+      <a href = "/teacher_prizes">
+        <li>Prizes</li>
+      </a>
+
+      <a href = "./winners">
+        <li>Winners</li>
+      </a>
+
+      <a href = "./teacher_events">
+        <li>Events</li>
+      </a>
+
+      <a href = "./teacher_create_event">
+        <li>Create Event</li>
+      </a>
+
+      <li>Quarter Report</li>
+      <a href="./logout">
+        <li>Logout</li>
+      </a>
+    </ul>
+  </nav>
+
+  <main class="container">
+    <article id = "fillerNameBeforeForLoop">
+      <h1>Event Name</h1>
+      <h6>Click Anywhere to Edit this Event</h6>
+      <div class = "grid">
+        <form method="POST" action = "./TBD">
+          <ul>
+            <div>
+              <label>
+                <li>Points</li>
+                <input type="number" id="Points" max="9999999" name="Points"
+                       required="required">
+              </label>
+            </div>
+
+            <div>
+              <label>
+                <li>Event Description</li>
+                <input type="text" id="EventDescription"
+                       required="required">
+              </label>
+            </div>
+
+            <div>
+              <label>
+                <li>Date</li>
+                <input type="date" id="EventDate"
+                       required="required">
+              </label>
+            </div>
+
+            <div>
+              <label>
+                <li>Room #</li>
+                <input type="number" id="RoomNumber" max="9999999" name="RoomNumber">
+              </label>
+            </div>
+
+            <div>
+              <label>
+                <li>Advisor(s) Name</li>
+                <input type="text" id="AdvisorNames"name="AdvisorNames"
+                       required="required">
+              </label>
+            </div>
+            <!--If you're a psycho, add google maps integration-->
+            <div>
+              <label>
+                <li>Location</li>
+                <input type="text" id="Location" name="Location"
+                       required="required">
+              </label>
+            </div>
+
+            <div>
+              <label>
+                <li>Location Description</li>
+                <input type="text" id="LocationDescription" name="LocationDescription">
+              </label>
+            </div>
+
+            <div>
+              <label>
+                <li>Sport</li>
+                <input type="text" id="Sport" name="Sport">
+              </label>
+            </div>
+
+            <div>
+              <label>
+                <li>Sport Description</li>
+                <input type="text" id="SportDescription" name="SportDescription">
+              </label>
+            </div>
+          </ul>
+        </form>
+
+        <!-- TODO: UNFINISHED FROM HERE BELOW -->
+
+        <div>
+          <img src = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fstockimages.org%2Fwp-content%2Fuploads%2F2020%2F10%2Fbigstock-Photography-Concept-African-A-381364544.jpg&f=1&nofb=1&ipt=f8cef5ef16632b29b6e55be4d9e982bbd07728bd58e5e0f6ad841b689d9e220f&ipo=images" alt = "Event Image" style="height: 50%; width: 100%">
+          <label>
+            <input class = "file-upload-input" type = "file" onchange="readURL(this)" accept="Image">
+          </label>
+        </div>
+      </div>
+      <div>
+        <h5>These are the student signed up:</h5>
+        <ol>
+          <strong>
+            <li style="display: inline">Name: </li>
+          </strong>
+          <u><li style="display: inline">Michael</li></u>
+          <strong>
+            <li style="display: inline"> Student Number: </li>
+          </strong>
+          <u><li style="display: inline">1354252</li></u>
+          <strong>
+            <li style="display: inline"> Attended?</li>
+          </strong>
+          <li style="display: inline"><input type="checkbox"></li>
+        </ol>
+      </div>
+      <ol>
+        <button class = "contrast" value= "remove">Remove Event</button>
+        <button class = "secondary" value= "save">Save</button>
+      </ol>
+    </article>
+  </main>
+</body>
+</html>

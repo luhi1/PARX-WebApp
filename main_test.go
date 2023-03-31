@@ -6,14 +6,10 @@ import (
 	"math/rand"
 	"net/http"
 	"net/http/httptest"
-	"strings"
 	"testing"
 	"time"
 )
 
-func TestJoe(t *testing.T) {
-	t.Logf(strings.TrimPrefix("http://localhost:8082/signup", "/"))
-}
 func TestHash(t *testing.T) {
 	rand.Seed(time.Now().Unix())
 	var passwords []string
@@ -35,7 +31,7 @@ func TestHash(t *testing.T) {
 }
 
 func TestTplExec(t *testing.T) {
-	templateNames := []string{"error.gohtml", "login.gohtml", "signup.gohtml", "home.gohtml"}
+	templateNames := []string{"error.gohtml", "login.gohtml", "signup.gohtml", "teacher_events.gohtml"}
 	for i := 0; i < len(templateNames); i++ {
 		httptest.NewServer(http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
 			err := tplExec(writer, templateNames[i], nil)
