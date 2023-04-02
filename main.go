@@ -5,6 +5,7 @@ import (
 	"encoding/base64"
 	"fmt"
 	"html/template"
+	"io/fs"
 	"net/http"
 	"strconv"
 	"strings"
@@ -15,6 +16,25 @@ type userData struct {
 	Grade        int
 	IdNumber     int
 	passwordHash string
+}
+
+type eventInfo struct {
+	Points           int
+	EventDescription string
+	EventDate        string
+	RoomNumber       int
+	//Might Need to be for array somewhere along the way
+	AdvisorNames        string
+	Location            string
+	LocationDescription string
+	Sport               string
+	SportDescription    string
+	//Consider Changing the Types of these last 2 over here!
+	EventImage      string
+	StudentName     string
+	StudentNumber   int
+	StudentAttended bool
+	inputImage      fs.File
 }
 
 type DisplayError struct {
@@ -76,12 +96,37 @@ func main() {
 			//Here we should populate the rest of the userInfo struct with sql queries and load whatever else we need for the home page.
 			//Also, we need to find out how to get signup to upload to db and login to get
 			//We can probably just do different interactions for get/post requests to the home, same way we did
-			err := tplExec(writer, "teacher_events.gohtml", userInfo)
+			var Events []eventInfo
+			for i := 0; i < 3; i++ {
+				Events = append(Events, eventInfo{
+					Points:              0,
+					EventDescription:    "asdf",
+					EventDate:           "2017-06-01",
+					RoomNumber:          0,
+					AdvisorNames:        "asdf",
+					Location:            "asdf",
+					LocationDescription: "asdf",
+					Sport:               "asdf",
+					SportDescription:    "asdf",
+					EventImage:          "https://imgs.search.brave.com/ToRVheIVFOHdWRebW6v6BriMZf_slwrqoAXvU-I62CY/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly90aGV3/b3dzdHlsZS5jb20v/d3AtY29udGVudC91/cGxvYWRzLzIwMTUv/MDEvbmF0dXJlLWlt/YWdlcy4uanBn",
+					StudentName:         "asdf",
+					StudentNumber:       0,
+					StudentAttended:     true,
+				})
+			}
+			err := tplExec(writer, "teacher_events.gohtml", Events)
 			if err != nil {
 				return
 			}
 		} else {
 			http.Redirect(writer, request, "./login", 303)
+		}
+	})
+
+	http.HandleFunc("/teacher_create_event", func(writer http.ResponseWriter, request *http.Request) {
+		err := tplExec(writer, "teacher_create_event.gohtml", nil)
+		if err != nil {
+			return
 		}
 	})
 

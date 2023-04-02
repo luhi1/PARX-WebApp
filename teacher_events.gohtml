@@ -7,17 +7,18 @@
   <title>ParX Login</title>
 </head>
 <body>
-  <nav class = "container-fluid" style="background: rgba(237,240,243,0.34);">
-    <ul>
-      <img src = "https://pluspng.com/img-png/logo-template-png-logo-templates-1655.png" alt = "icon" style="height: 40%; width: 5%">
-    </ul>
-    <ul>
-      <a href = "/teacher_prizes">
-        <li>Prizes</li>
-      </a>
+<nav class="container-fluid" style="background: #141e26;">
+  <ul>
+    <img src="https://pluspng.com/img-png/logo-template-png-logo-templates-1655.png" alt="icon"
+         style="height: 40%; width: 5%">
+  </ul>
+  <ul>
+    <a href="/teacher_prizes">
+      <li>Prizes</li>
+    </a>
 
-      <a href = "./winners">
-        <li>Winners</li>
+    <a href="./winners">
+      <li>Winners</li>
       </a>
 
       <a href = "./teacher_events">
@@ -28,56 +29,63 @@
         <li>Create Event</li>
       </a>
 
-      <li>Quarter Report</li>
-      <a href="./logout">
-        <li>Logout</li>
-      </a>
-    </ul>
-  </nav>
+    <li>Quarter Report</li>
+    <a href="./logout">
+      <li>Logout</li>
+    </a>
+  </ul>
+</nav>
 
-  <main class="container">
-    <article id = "fillerNameBeforeForLoop">
-      <h1>Event Name</h1>
-      <h6>Click Anywhere to Edit this Event</h6>
-      <div class = "grid">
-        <form method="POST" action = "./TBD">
+<main class="container">
+  <!-- I DON'T KNOW IF WE NEED EVENT$INDEX FORMAT YET, SO WE KEEP IT -->
+  {{range $index, $val := .}}
+    <form method="POST" action="./TBD">
+      <article id="event{{$index}}">
+        <h1>Event Name</h1>
+        <h6>Click Anywhere to Edit this Event</h6>
+        <div class="grid">
           <ul>
             <div>
               <label>
                 <li>Points</li>
                 <input type="number" id="Points" max="9999999" name="Points"
-                       required="required">
+                       required="required" value="{{.Points}}">
               </label>
             </div>
 
             <div>
               <label>
                 <li>Event Description</li>
-                <input type="text" id="EventDescription"
-                       required="required">
+                <input type="text" id="EventDescription" name="EventDescription"
+                       required="required" value="{{.EventDescription}}">
               </label>
             </div>
 
             <div>
               <label>
                 <li>Date</li>
-                <input type="date" id="EventDate"
-                       required="required">
+                <input
+                        type="date"
+                        name="EventDate"
+                        value="{{.EventDate}}"
+                        id="EventDate"
+                        required="required"/>
+                </li>
               </label>
             </div>
 
             <div>
               <label>
                 <li>Room #</li>
-                <input type="number" id="RoomNumber" max="9999999" name="RoomNumber">
+                <input type="number" id="RoomNumber" max="9999999" name="RoomNumber" value="{{.RoomNumber}}">
               </label>
             </div>
 
             <div>
               <label>
                 <li>Advisor(s) Name</li>
-                <input type="text" id="AdvisorNames"name="AdvisorNames"
-                       required="required">
+                <input type="text" id="AdvisorNames" name="AdvisorNames"
+                       required="required" value="{{.AdvisorNames}}">
               </label>
             </div>
             <!--If you're a psycho, add google maps integration-->
@@ -85,64 +93,85 @@
               <label>
                 <li>Location</li>
                 <input type="text" id="Location" name="Location"
-                       required="required">
+                       required="required" value="{{.Location}}">
               </label>
             </div>
 
             <div>
               <label>
                 <li>Location Description</li>
-                <input type="text" id="LocationDescription" name="LocationDescription">
+                <input type="text" id="LocationDescription" name="LocationDescription" value="{{.LocationDescription}}">
               </label>
             </div>
 
             <div>
               <label>
                 <li>Sport</li>
-                <input type="text" id="Sport" name="Sport">
+                <input type="text" id="Sport" name="Sport" value="{{.Sport}}">
               </label>
             </div>
 
             <div>
               <label>
                 <li>Sport Description</li>
-                <input type="text" id="SportDescription" name="SportDescription">
+                <input type="text" id="SportDescription" name="SportDescription" value="{{.SportDescription}}">
               </label>
             </div>
           </ul>
-        </form>
 
-        <!-- TODO: UNFINISHED FROM HERE BELOW -->
+          <div>
+            <img id="EventImage" src="{{.EventImage}}" alt="Event Image" style="height: 50%; width: 100%">
+            <input id="file-upload" name="EventImage" type="file" accept="image/png, image/jpeg" onchange='
+            const previewImage = document.getElementById("EventImage")
 
-        <div>
-          <img src = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fstockimages.org%2Fwp-content%2Fuploads%2F2020%2F10%2Fbigstock-Photography-Concept-African-A-381364544.jpg&f=1&nofb=1&ipt=f8cef5ef16632b29b6e55be4d9e982bbd07728bd58e5e0f6ad841b689d9e220f&ipo=images" alt = "Event Image" style="height: 50%; width: 100%">
-          <label>
-            <input class = "file-upload-input" type = "file" onchange="readURL(this)" accept="Image">
-          </label>
+            const file = this.files[0]
+            console.log(file)
+            if (file){
+              const reader = new FileReader()
+              reader.addEventListener("load", function(){
+                previewImage.setAttribute("src", this.result)
+              })
+
+              reader.readAsDataURL(file)
+            }
+            inpFile.setAttribute("value", file)
+          '
+            >
+          </div>
         </div>
-      </div>
-      <div>
-        <h5>These are the student signed up:</h5>
+        <div>
+          <h5>These are the student signed up:</h5>
+          <ol>
+            <strong>
+              <li style="display: inline">Name:</li>
+            </strong>
+            <u>
+              <li style="display: inline">{{.StudentName}}</li>
+            </u>
+            <strong>
+              <li style="display: inline"> Student Number:</li>
+            </strong>
+            <u>
+              <li style="display: inline">{{.StudentNumber}}</li>
+            </u>
+            <strong>
+              <li style="display: inline"> Attended?</li>
+            </strong>
+
+            <label style="display: inline" for="StudentAttended">
+              <input id="StudentAttended" value="true" name="StudentAttended" type="checkbox"
+                     checked="{{.StudentAttended}}">
+            </label>
+
+          </ol>
+        </div>
         <ol>
-          <strong>
-            <li style="display: inline">Name: </li>
-          </strong>
-          <u><li style="display: inline">Michael</li></u>
-          <strong>
-            <li style="display: inline"> Student Number: </li>
-          </strong>
-          <u><li style="display: inline">1354252</li></u>
-          <strong>
-            <li style="display: inline"> Attended?</li>
-          </strong>
-          <li style="display: inline"><input type="checkbox"></li>
+          <button class="contrast" value="remove" type="submit">Remove Event</button>
+          <button class="secondary" value="save" type="submit">Save</button>
         </ol>
-      </div>
-      <ol>
-        <button class = "contrast" value= "remove">Remove Event</button>
-        <button class = "secondary" value= "save">Save</button>
-      </ol>
-    </article>
+      </article>
+    </form>
+  {{end}}
   </main>
 </body>
 </html>

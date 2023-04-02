@@ -30,6 +30,33 @@ func TestHash(t *testing.T) {
 	t.Logf("All hashes as expected.")
 }
 
+func TestEvents(t *testing.T) {
+	var Events []eventInfo
+	for i := 0; i < 10; i++ {
+		Events = append(Events, eventInfo{
+			Points:              0,
+			EventDescription:    "asdf",
+			EventDate:           "2017-06-01",
+			RoomNumber:          0,
+			AdvisorNames:        "asdf",
+			Location:            "asdf",
+			LocationDescription: "asdf",
+			Sport:               "asdf",
+			SportDescription:    "asdf",
+			EventImage:          "https://imgs.search.brave.com/ToRVheIVFOHdWRebW6v6BriMZf_slwrqoAXvU-I62CY/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly90aGV3/b3dzdHlsZS5jb20v/d3AtY29udGVudC91/cGxvYWRzLzIwMTUv/MDEvbmF0dXJlLWlt/YWdlcy4uanBn",
+			StudentName:         "asdf",
+			StudentNumber:       0,
+			StudentAttended:     true,
+		})
+	}
+	httptest.NewServer(http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
+		err := tplExec(writer, "teacher_events.gohtml", Events)
+		if err != nil {
+			t.Errorf("Failed to load events")
+		}
+	}))
+	t.Logf("All events loaded.")
+}
 func TestTplExec(t *testing.T) {
 	templateNames := []string{"error.gohtml", "login.gohtml", "signup.gohtml", "teacher_events.gohtml"}
 	for i := 0; i < len(templateNames); i++ {
