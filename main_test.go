@@ -10,6 +10,8 @@ import (
 	"time"
 )
 
+//@TODO: Now that you're all interfaced up, time to get those 70% tests.
+
 func TestHash(t *testing.T) {
 	rand.Seed(time.Now().Unix())
 	var passwords []string
@@ -31,9 +33,9 @@ func TestHash(t *testing.T) {
 }
 
 func TestEvents(t *testing.T) {
-	var Events []eventInfo
+	var Events []EventInfo
 	for i := 0; i < 10; i++ {
-		Events = append(Events, eventInfo{
+		Events = append(Events, EventInfo{
 			Points:              0,
 			EventDescription:    "asdf",
 			EventDate:           "2017-06-01",
@@ -73,7 +75,7 @@ func TestTplExec(t *testing.T) {
 
 func TestDataValidation(t *testing.T) {
 	rand.Seed(time.Now().Unix())
-	testData := userData{}
+	testData := UserData{}
 	var expected bool
 	requestMethod := "signup"
 
@@ -111,7 +113,7 @@ func TestDataValidation(t *testing.T) {
 			expected = true
 		}
 
-		if checkData(requestMethod, &testData) != expected {
+		if testData.dataVal(requestMethod) != expected {
 			t.Errorf("DID NOT STOP A BAD INPUT. Expected %t using method %s on iteration %d using random number %d", expected, requestMethod, i, punishment)
 			return
 		}
