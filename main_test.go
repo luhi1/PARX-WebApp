@@ -11,6 +11,26 @@ import (
 )
 
 //@TODO: Now that you're all interfaced up, time to get those 70% tests.
+func TestUserFuncs(t *testing.T){
+	testData := UserData{
+		"joe",
+		10,
+		1354252,
+		hashPswd("asdflkjasfd"),
+		DisplayError{"bingchilling"}
+	}
+	httptest.NewServer(http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
+		testData.GETHandler(writer, request)
+		if (testData.valid.ErrorDescription != ""){
+			t.Logf("Failed at GETHandler.")
+		}
+		testData.POSTHandler(writer, request)
+		if (testData.valid.ErrorDescription != ""){
+			t.Logf("Failed at POSTHandler.")
+		}
+	}))
+	//@TODO: Create new request to test dataval handler (has to be post not just get)
+}
 
 func TestHash(t *testing.T) {
 	rand.Seed(time.Now().Unix())
@@ -73,7 +93,7 @@ func TestTplExec(t *testing.T) {
 	t.Logf("All templates loaded.")
 }
 
-func TestDataValidation(t *testing.T) {
+func TestLoginDataValidation(t *testing.T) {
 	rand.Seed(time.Now().Unix())
 	testData := UserData{}
 	var expected bool
