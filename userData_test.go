@@ -56,7 +56,6 @@ func TestUserData_GETHandler(t *testing.T) {
 	}
 }
 
-// @TODO: Figure out how to emulate postforms and finish this test
 func TestUserData_POSTHandler(t *testing.T) {
 	signupTemp := template.Must(template.ParseFiles("signup.gohtml"))
 	expectedValidity := ""
@@ -95,7 +94,11 @@ func TestUserData_POSTHandler(t *testing.T) {
 	}
 }
 
-// @TODO: dataValHandler
+func TestUserData_ValHandler(t *testing.T) {
+	//@TODO: Figure out how to emulate postforms.
+	//@TODO: Implement.
+}
+
 func TestUserData_dataVal(t *testing.T) {
 	rand.Seed(time.Now().Unix())
 	testData := UserData{}

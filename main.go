@@ -19,33 +19,29 @@ type UserData struct {
 	valid        DisplayError
 }
 
+// EventInfo @TODO: Figure out how to pass a file -> struct -> SQL
 type EventInfo struct {
-	Points           int
-	EventDescription string
-	EventDate        string
-	RoomNumber       int
-	//Might Need to be for array somewhere along the way
+	Points              int
+	EventDescription    string
+	EventDate           string
+	RoomNumber          int
 	AdvisorNames        string
 	Location            string
 	LocationDescription string
 	Sport               string
 	SportDescription    string
-	//Consider Changing the Types of these last 2 over here!
-	EventImage      string
-	StudentName     string
-	StudentNumber   int
-	StudentAttended bool
-	inputImage      fs.File
+	EventImage          string
+	StudentName         string
+	StudentNumber       int
+	StudentAttended     bool
+	inputImage          fs.File
 }
-
-// To fix package level state, use the val function w/ a pointer to this little man.
-var userInfo = UserData{}
-var eventInfo = EventInfo{}
 
 type DisplayError struct {
 	ErrorDescription string
 }
 
+// TeacherPageHandlers Consider creating a generic interface for both teacher and student to implement.
 type TeacherPageHandlers interface {
 	GETHandler(writer http.ResponseWriter, request *http.Request)
 	POSTHandler(writer http.ResponseWriter, request *http.Request)
@@ -53,20 +49,28 @@ type TeacherPageHandlers interface {
 	dataVal(requestMethod string) bool
 }
 
+// USE POINTERS INSTEAD OF PACKAGE LEVEL STATE
+var userInfo = UserData{}
+var eventInfo = EventInfo{}
+
 func (u *UserData) GETHandler(writer http.ResponseWriter, request *http.Request) {
 	err := tplExec(writer, "login.gohtml", u.valid)
+	//@TODO: REMOVE
 	if err != nil {
 		return
 	}
 	u.valid = DisplayError{""}
 }
+
 func (u *UserData) POSTHandler(writer http.ResponseWriter, request *http.Request) {
 	err := tplExec(writer, "signup.gohtml", u.valid)
+	//@TODO: REMOVE
 	if err != nil {
 		return
 	}
 	u.valid = DisplayError{""}
 }
+
 func (u *UserData) valHandler(writer http.ResponseWriter, request *http.Request) {
 	var err error
 	err = request.ParseForm()
@@ -90,6 +94,7 @@ func (u *UserData) valHandler(writer http.ResponseWriter, request *http.Request)
 		}
 	}
 }
+
 func (u *UserData) dataVal(requestMethod string) bool {
 	valid := false
 	if (*u != UserData{}) &&
@@ -137,6 +142,7 @@ func (e *EventInfo) GETHandler(writer http.ResponseWriter, request *http.Request
 			})
 		}
 		err := tplExec(writer, "teacher_events.gohtml", Events)
+		//@TODO: REMOVE
 		if err != nil {
 			return
 		}
@@ -144,22 +150,23 @@ func (e *EventInfo) GETHandler(writer http.ResponseWriter, request *http.Request
 		http.Redirect(writer, request, "./login", 303)
 	}
 }
+
 func (e *EventInfo) POSTHandler(writer http.ResponseWriter, request *http.Request) {
 	err := tplExec(writer, "teacher_create_event.gohtml", nil)
+	//@TODO: REMOVE
 	if err != nil {
 		return
 	}
 }
+
 func (e *EventInfo) valHandler(writer http.ResponseWriter, request *http.Request) {
 	//@todo: Implement Data Validation.
 }
+
 func (e *EventInfo) dataVal(requestMethod string) bool {
 	//@todo: Implement Data Validation.
 	return false
 }
-
-//USE POINTERS INSTEAD OF PACKAGE LEVEL STATE
-//ANY IF ERR != NIL RETURN STATEMENTS SHOULD BE FIXED LATER!
 
 // Start server run, files, and other shit.
 func main() {
@@ -183,6 +190,7 @@ func main() {
 	http.HandleFunc("/", func(writer http.ResponseWriter, request *http.Request) {
 		if request.URL.Path != "/" {
 			err := tplExec(writer, "error.gohtml", nil)
+			//@TODO: REMOVE
 			if err != nil {
 				return
 			}
@@ -205,6 +213,7 @@ func tplExec(w http.ResponseWriter, filename string, information any) error {
 	temp := template.Must(template.ParseFiles(filename))
 
 	err := temp.Execute(w, information)
+	//@TODO: REMOVE
 	if err != nil {
 		return err
 	}
