@@ -1,5 +1,5 @@
 package main
 
 /*
-	@TODO: Implement
+	@TODO: Implement.
 */
