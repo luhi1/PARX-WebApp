@@ -36,44 +36,46 @@
   </ul>
 </nav>
 
-<main class="container">
+<main>
+  <div class = "container">
   <!-- I DON'T KNOW IF WE NEED EVENT$INDEX FORMAT YET, SO WE KEEP IT -->
   {{range $index, $val := .}}
     <form method="POST" action="./TBD">
       <article id="event{{$index}}">
-        <h1>Event Name</h1>
-        <h6>Click Anywhere to Edit this Event</h6>
+        <h2>Event Name</h2>
         <div class="grid">
-          <ul>
-            <div>
-              <label>
-                <li>Points</li>
-                <input type="number" id="Points" max="9999999" name="Points"
-                       required="required" value="{{.Points}}">
-              </label>
-            </div>
+          <div>
+            <ul style = "list-style-type: none" class = "grid">
+              <div>
+                <label>
+                  <li>Points</li>
+                  <input type="number" id="Points" max="9999999" name="Points"
+                         required="required" value="{{.Points}}">
+                </label>
+              </div>
+              <div>
+                <label>
+                  <li>Event Description</li>
+                  <input type="text" id="EventDescription" name="EventDescription"
+                         required="required" value="{{.EventDescription}}">
+                </label>
+              </div>
 
-            <div>
-              <label>
-                <li>Event Description</li>
-                <input type="text" id="EventDescription" name="EventDescription"
-                       required="required" value="{{.EventDescription}}">
-              </label>
-            </div>
+              <div>
+                <label>
+                  <li>Date</li>
+                  <input
+                          type="date"
+                          name="EventDate"
+                          value="{{.EventDate}}"
+                          id="EventDate"
+                          required="required"/>
+                  </li>
+                </label>
+              </div>
+            </ul>
 
-            <div>
-              <label>
-                <li>Date</li>
-                <input
-                        type="date"
-                        name="EventDate"
-                        value="{{.EventDate}}"
-                        id="EventDate"
-                        required="required"/>
-                </li>
-              </label>
-            </div>
-
+          <ul style = "list-style-type: none" class = "grid">
             <div>
               <label>
                 <li>Room #</li>
@@ -96,7 +98,9 @@
                        required="required" value="{{.Location}}">
               </label>
             </div>
+          </ul>
 
+            <ul style = "list-style-type: none" class = "grid">
             <div>
               <label>
                 <li>Location Description</li>
@@ -117,7 +121,41 @@
                 <input type="text" id="SportDescription" name="SportDescription" value="{{.SportDescription}}">
               </label>
             </div>
-          </ul>
+
+            </ul>
+
+            <div>
+              <h5>These are the student signed up:</h5>
+              <ol>
+                <strong>
+                  <li style="display: inline">Name:</li>
+                </strong>
+                <u>
+                  <li style="display: inline">{{.StudentName}}</li>
+                </u>
+                <strong>
+                  <li style="display: inline"> Student Number:</li>
+                </strong>
+                <u>
+                  <li style="display: inline">{{.StudentNumber}}</li>
+                </u>
+                <strong>
+                  <li style="display: inline"> Attended?</li>
+                </strong>
+
+                <label style="display: inline" for="StudentAttended">
+                  <input id="StudentAttended" value="true" name="StudentAttended" type="checkbox"
+                         checked="{{.StudentAttended}}">
+                </label>
+
+              </ol>
+            </div>
+            <ol>
+              <button class="contrast" value="remove" type="submit">Remove Event</button>
+              <button class="secondary" value="save" type="submit">Save</button>
+            </ol>
+
+          </div>
 
           <div>
             <img id="EventImage" src="{{.EventImage}}" alt="Event Image" style="height: 50%; width: 100%">
@@ -139,39 +177,11 @@
             >
           </div>
         </div>
-        <div>
-          <h5>These are the student signed up:</h5>
-          <ol>
-            <strong>
-              <li style="display: inline">Name:</li>
-            </strong>
-            <u>
-              <li style="display: inline">{{.StudentName}}</li>
-            </u>
-            <strong>
-              <li style="display: inline"> Student Number:</li>
-            </strong>
-            <u>
-              <li style="display: inline">{{.StudentNumber}}</li>
-            </u>
-            <strong>
-              <li style="display: inline"> Attended?</li>
-            </strong>
-
-            <label style="display: inline" for="StudentAttended">
-              <input id="StudentAttended" value="true" name="StudentAttended" type="checkbox"
-                     checked="{{.StudentAttended}}">
-            </label>
-
-          </ol>
-        </div>
-        <ol>
-          <button class="contrast" value="remove" type="submit">Remove Event</button>
-          <button class="secondary" value="save" type="submit">Save</button>
-        </ol>
       </article>
     </form>
   {{end}}
+  </div>
   </main>
+
 </body>
 </html>

@@ -5,13 +5,12 @@ import (
 	"encoding/base64"
 	"html/template"
 	"math/rand"
-	"net/http"
 	"net/http/httptest"
 	"testing"
 	"time"
 )
 
-//@TODO: Test the main.go function (tie it all together with a lot of mock requests)
+// @TODO: Test the main.go function (tie it all together with a lot of mock requests)
 func TestTplExec(t *testing.T) {
 	testData := UserData{}
 	templateNames := []string{"error.gohtml", "login.gohtml", "signup.gohtml"}

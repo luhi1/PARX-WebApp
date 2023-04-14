@@ -1,9 +1,6 @@
 package main
 
 import (
-	"fmt"
-	"html/template"
-	"io/fs"
 	"net/http"
 	"strconv"
 	"strings"

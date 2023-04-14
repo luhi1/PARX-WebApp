@@ -5,10 +5,7 @@ import (
 	"encoding/base64"
 	"fmt"
 	"html/template"
-	"io/fs"
 	"net/http"
-	"strconv"
-	"strings"
 )
 
 type DisplayError struct {
@@ -27,7 +24,7 @@ type TeacherPageHandlers interface {
 func main() {
 	userInfo := UserData{}
 	eventInfo := EventInfo{}
-	
+
 	http.HandleFunc("/login", userInfo.GETHandler)
 
 	http.HandleFunc("/signup", userInfo.POSTHandler)
