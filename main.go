@@ -24,6 +24,10 @@ type TeacherPageHandlers interface {
 func main() {
 	userInfo := UserData{}
 	eventInfo := EventInfo{}
+	prize := Prize{}
+	winners := Winners{}
+	fs := http.FileServer(http.Dir("./static"))
+	http.Handle("/static/", http.StripPrefix("/static/", fs))
 
 	http.HandleFunc("/login", userInfo.GETHandler)
 
@@ -31,11 +35,12 @@ func main() {
 
 	http.HandleFunc("/userValidation/", userInfo.valHandler)
 
-	http.HandleFunc("/teacher_events", eventInfo.GETHandler)
+	http.HandleFunc("/teacherEvents", eventInfo.GETHandler)
 
-	http.HandleFunc("/teacher_create_event", eventInfo.POSTHandler)
+	http.HandleFunc("/teacherCreateEvent", eventInfo.POSTHandler)
 
-	http.HandleFunc("/eventValidation/", eventInfo.POSTHandler)
+	http.HandleFunc("/winners", winners.GETHandler)
+	http.HandleFunc("/prizes", prize.GETHandler)
 
 	http.HandleFunc("/logout", func(writer http.ResponseWriter, request *http.Request) {
 		userInfo = UserData{}

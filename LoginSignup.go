@@ -45,7 +45,7 @@ func (u *UserData) valHandler(writer http.ResponseWriter, request *http.Request)
 	u.passwordHash = hashPswd(request.FormValue("password"))
 
 	if err != nil || u.dataVal(strings.TrimPrefix(request.URL.Path, "/userValidation/")) {
-		http.Redirect(writer, request, "../teacher_events", 307)
+		http.Redirect(writer, request, "../teacherEvents", 307)
 	} else {
 		u.valid = DisplayError{"Invalid Credentials"}
 		if strings.TrimPrefix(request.URL.Path, "/userValidation/") == "signup" {

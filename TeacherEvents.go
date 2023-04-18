@@ -1,12 +1,17 @@
 package main
 
 import (
-	"io/fs"
 	"net/http"
 )
 
 // EventInfo @TODO: Figure out how to pass a file -> struct -> SQL
+type StudentAttendance struct {
+	StudentName   string
+	StudentNumber int
+}
+
 type EventInfo struct {
+	EventName           string
 	Points              int
 	EventDescription    string
 	EventDate           string
@@ -16,22 +21,19 @@ type EventInfo struct {
 	LocationDescription string
 	Sport               string
 	SportDescription    string
-	EventImage          string
-	StudentName         string
-	StudentNumber       int
-	StudentAttended     bool
-	inputImage          fs.File
+	Attendance          []StudentAttendance
 }
 
 func (e *EventInfo) GETHandler(writer http.ResponseWriter, request *http.Request) {
+	events := []EventInfo{}
 	//SEMI-SCUFFED WAY OF MAKING THE USER NOT BE ABLE TO ACCESS HOME IF NOT LOGGED IN, CONSIDER USING COOKIES
 
 	//Here we should populate the rest of the userInfo struct with sql queries and load whatever else we need for the home page.
 	//Also, we need to find out how to get signup to upload to db and login to get
 	//We can probably just do different interactions for get/post requests to the home, same way we did
-	var Events []EventInfo
 	for i := 0; i < 3; i++ {
-		Events = append(Events, EventInfo{
+		events = append(events, EventInfo{
+			EventName:           "asdfasd",
 			Points:              0,
 			EventDescription:    "asdf",
 			EventDate:           "2017-06-01",
@@ -41,13 +43,13 @@ func (e *EventInfo) GETHandler(writer http.ResponseWriter, request *http.Request
 			LocationDescription: "asdf",
 			Sport:               "asdf",
 			SportDescription:    "asdf",
-			EventImage:          "https://imgs.search.brave.com/ToRVheIVFOHdWRebW6v6BriMZf_slwrqoAXvU-I62CY/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly90aGV3/b3dzdHlsZS5jb20v/d3AtY29udGVudC91/cGxvYWRzLzIwMTUv/MDEvbmF0dXJlLWlt/YWdlcy4uanBn",
-			StudentName:         "asdf",
-			StudentNumber:       0,
-			StudentAttended:     true,
+			Attendance: []StudentAttendance{
+				{"asdfasdf",
+					1010},
+			},
 		})
 	}
-	err := tplExec(writer, "teacher_events.gohtml", Events)
+	err := tplExec(writer, "teacher_events.gohtml", events)
 	//@TODO: REMOVE
 	if err != nil {
 		return

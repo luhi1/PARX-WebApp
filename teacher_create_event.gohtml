@@ -1,146 +1,164 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@1.*/css/pico.min.css">
-  <title>ParX Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="google" content="notranslate">
+    <title>Hello world</title>
+    <link href="https://cdn.jsdelivr.net/npm/beercss@3.1.1/dist/cdn/beer.min.css" rel="stylesheet">
+    <script type="module" src="https://cdn.jsdelivr.net/npm/beercss@3.1.1/dist/cdn/beer.min.js"></script>
+    <script type="module"
+            src="https://cdn.jsdelivr.net/npm/material-dynamic-colors@0.1.7/dist/cdn/material-dynamic-colors.min.js"></script>
 </head>
-<body>
-<!--TODO: LAYOUTS-->
-<nav class="container-fluid" style="background: #141e26;">
-  <ul>
-    <img src="https://pluspng.com/img-png/logo-template-png-logo-templates-1655.png" alt="icon"
-         style="height: 40%; width: 5%">
-  </ul>
-  <ul>
-    <a href="/teacher_prizes">
-      <li>Prizes</li>
+<body class="light">
+<nav class="left m l">
+    <img src="static/parxfull.png" class="circle margin">
+    <a href="./teacherEvents">
+        <i>event</i>
+        <div>Events</div>
     </a>
-
+    <a href="./teacherCreateEvent">
+        <i>create</i>
+        <div>Make Event</div>
+    </a>
     <a href="./winners">
-      <li>Winners</li>
+        <i>done</i>
+        <div>Winners</div>
     </a>
-
-    <a href="./teacher_events">
-      <li>Events</li>
+    <a href="./prizes">
+        <i>star</i>
+        <div>Prizes</div>
     </a>
-
-    <a href="./teacher_create_event">
-      <li>Create Event</li>
+    <a href="./quarterReport">
+        <i>description</i>
+        <div>Generate Quarter Report</div>
     </a>
-
-    <li>Quarter Report</li>
     <a href="./logout">
-      <li>Logout</li>
+        <i>logout</i>
+        <div>Logout</div>
     </a>
-  </ul>
 </nav>
 
-<main class="container">
-  <form method="POST" action="./TBD">
-    <article id="event">
-      <h1>Event Name</h1>
-      <h6>Click Anywhere to Edit this Event</h6>
-      <div>
-        <ul>
-          <div>
-            <label>
-              <li>Points</li>
-              <input type="number" id="Points" max="9999999" name="Points"
-                     required="required">
-            </label>
-          </div>
-
-          <div>
-            <label>
-              <li>Event Description</li>
-              <input type="text" id="EventDescription" name="EventDescription"
-                     required="required">
-            </label>
-          </div>
-
-          <div>
-            <label>
-              <li>Date</li>
-              <input
-                      type="date"
-                      name="EventDate"
-
-                      id="EventDate"
-                      required="required"/>
-              </li>
-            </label>
-          </div>
-
-          <div>
-            <label>
-              <li>Room #</li>
-              <input type="number" id="RoomNumber" max="9999999" name="RoomNumber">
-            </label>
-          </div>
-
-          <div>
-            <label>
-              <li>Advisor(s) Name</li>
-              <input type="text" id="AdvisorNames" name="AdvisorNames"
-                     required="required">
-            </label>
-          </div>
-          <!--If you're a psycho, add google maps integration-->
-          <div>
-            <label>
-              <li>Location</li>
-              <input type="text" id="Location" name="Location"
-                     required="required">
-            </label>
-          </div>
-
-          <div>
-            <label>
-              <li>Location Description</li>
-              <input type="text" id="LocationDescription" name="LocationDescription">
-            </label>
-          </div>
-
-          <div>
-            <label>
-              <li>Sport</li>
-              <input type="text" id="Sport" name="Sport">
-            </label>
-          </div>
-
-          <div>
-            <label>
-              <li>Sport Description</li>
-              <input type="text" id="SportDescription" name="SportDescription">
-            </label>
-          </div>
-        </ul>
-
-        <!-- TODO: UNFINISHED FROM HERE BELOW -->
-
-        <img id="EventImage" src="" alt="Event Image" style="height: 50%; width: 100%">
-        <label>
-          <input id="file-upload" name="EventImage" type="file" accept="image/png, image/jpeg" onchange='
-            const previewImage = document.getElementById("EventImage")
-
-            const file = this.files[0]
-            if (file){
-              const reader = new FileReader()
-              reader.addEventListener("load", function(){
-                previewImage.setAttribute("src", this.result)
-              })
-
-              reader.readAsDataURL(file)
-            }'>
-        </label>
-      </div>
-      <ol>
-        <button class="secondary" type="submit">Save</button>
-      </ol>
-    </article>
-  </form>
+<nav class="bottom s">
+    <img src="static/parxfull.png" class="circle margin">
+    <a href="./teacherEvents">
+        <i>event</i>
+        <div>Events</div>
+    </a>
+    <a href="./teacherCreateEvent">
+        <i>create</i>
+        <div>Make Event</div>
+    </a>
+    <a href="./winners">
+        <i>done</i>
+        <div>Winners</div>
+    </a>
+    <a href="./prizes">
+        <i>star</i>
+        <div>Prizes</div>
+    </a>
+    <a href="./quarterReport">
+        <i>description</i>
+        <div>Generate Quarter Report</div>
+    </a>
+    <a href="./logout">
+        <i>logout</i>
+        <div>Logout</div>
+    </a>
+</nav>
+<main class="responsive">
+    <div id="teacherEvent" name="teacherEvent">
+        <form method="post" action="/TBD" class="large-padding responsive" id="EventImage">
+            <header class="blur">
+                <nav>
+                    <h5 class="max">Create an Event Here!</h5>
+                </nav>
+            </header>
+            <article class="large-blur">
+                <div class="field label border">
+                    <input type="text" id="EventName" value="" name="EventName" required="required"
+                           style="clip-path: polygon(0% 0%, 0.75rem 0%, 0.75rem 0.5rem, 3.0625rem 0.5rem, 3.0625rem 0%, 100% 0%, 100% 100%, 0% 100%);">
+                    <label class="active">EventName</label>
+                </div>
+                <div class="grid">
+                    <div class="s12 l4">
+                        <div class="field label border">
+                            <input type="number" id="Points" max="9999999" value="" name="Points" required="required"
+                                   style="clip-path: polygon(0% 0%, 0.75rem 0%, 0.75rem 0.5rem, 3.0625rem 0.5rem, 3.0625rem 0%, 100% 0%, 100% 100%, 0% 100%);">
+                            <label class="active">Points</label>
+                        </div>
+                    </div>
+                    <div class="s12 l4">
+                        <div class="field label border">
+                            <input type="text" id="EventDescription" value="" name="EventDescription"
+                                   required="required"
+                                   style="clip-path: polygon(0% 0%, 0.75rem 0%, 0.75rem 0.5rem, 3.0625rem 0.5rem, 3.0625rem 0%, 100% 0%, 100% 100%, 0% 100%);">
+                            <label class="active">Event Description</label>
+                        </div>
+                    </div>
+                    <div class="s12 l4">
+                        <div class="field label border">
+                            <input type="date"
+                                   name="EventDate"
+                                   value=""
+                                   id="EventDate"
+                                   required="required"
+                                   style="clip-path: polygon(0% 0%, 0.75rem 0%, 0.75rem 0.5rem, 3.0625rem 0.5rem, 3.0625rem 0%, 100% 0%, 100% 100%, 0% 100%);">
+                            <label class="active">Date</label>
+                        </div>
+                    </div>
+                    <div class="s12 l4">
+                        <div class="field label border">
+                            <input type="number" value="" id="RoomNumber" max="9999999" name="RoomNumber"
+                                   style="clip-path: polygon(0% 0%, 0.75rem 0%, 0.75rem 0.5rem, 3.0625rem 0.5rem, 3.0625rem 0%, 100% 0%, 100% 100%, 0% 100%);">
+                            <label class="active">Room Number</label>
+                        </div>
+                    </div>
+                    <div class="s12 l4">
+                        <div class="field label border">
+                            <input type="text" id="AdvisorNames" value="" name="AdvisorNames" required="required"
+                                   style="clip-path: polygon(0% 0%, 0.75rem 0%, 0.75rem 0.5rem, 3.0625rem 0.5rem, 3.0625rem 0%, 100% 0%, 100% 100%, 0% 100%);">
+                            <label class="active">Advisor Name(s)</label>
+                        </div>
+                    </div>
+                    <div class="s12 l4">
+                        <div class="field label border">
+                            <input type="text" id="Location" value="" name="Location" required="required"
+                                   style="clip-path: polygon(0% 0%, 0.75rem 0%, 0.75rem 0.5rem, 3.0625rem 0.5rem, 3.0625rem 0%, 100% 0%, 100% 100%, 0% 100%);">
+                            <label class="active">Location</label>
+                        </div>
+                    </div>
+                    <div class="s12 l4">
+                        <div class="field label border">
+                            <input type="text" id="LocationDescription" value="" name="LocationDescription"
+                                   style="clip-path: polygon(0% 0%, 0.75rem 0%, 0.75rem 0.5rem, 3.0625rem 0.5rem, 3.0625rem 0%, 100% 0%, 100% 100%, 0% 100%);">
+                            <label class="active">Location Description</label>
+                        </div>
+                    </div>
+                    <div class="s12 l4">
+                        <div class="field label border">
+                            <input type="text" id="Sport" value="" name="Sport"
+                                   style="clip-path: polygon(0% 0%, 0.75rem 0%, 0.75rem 0.5rem, 3.0625rem 0.5rem, 3.0625rem 0%, 100% 0%, 100% 100%, 0% 100%);">
+                            <label class="active">Sport Name</label>
+                        </div>
+                    </div>
+                    <div class="s12 l4">
+                        <div class="field label border">
+                            <input type="text" id="SportDescription" value="" name="SportDescription"
+                                   style="clip-path: polygon(0% 0%, 0.75rem 0%, 0.75rem 0.5rem, 3.0625rem 0.5rem, 3.0625rem 0%, 100% 0%, 100% 100%, 0% 100%);">
+                            <label class="active">Sport Description</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="space"></div>
+                <nav class="left-align">
+                    <button type="reset" class="blur">Remove</button>
+                    <button type="submit" class="blur">Save</button>
+                </nav>
+            </article>
+        </form>
+    </div>
 </main>
 </body>
 </html>
