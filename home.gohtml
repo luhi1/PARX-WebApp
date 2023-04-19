@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="google" content="notranslate">
+    <title>Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/beercss@3.1.1/dist/cdn/beer.min.css" rel="stylesheet">
+    <script type="module" src="https://cdn.jsdelivr.net/npm/beercss@3.1.1/dist/cdn/beer.min.js"></script>
+    <script type="module"
+            src="https://cdn.jsdelivr.net/npm/material-dynamic-colors@0.1.7/dist/cdn/material-dynamic-colors.min.js"></script>
+</head>
+<body>
+{{define "navbar"}}
+<nav class="left m l">
+    <img src="static/parxfull.png" class="circle margin">
+    <a href="./studentEvents">
+        <i>event</i>
+        <div>Events</div>
+    </a>
+    <a href="./home">
+        <i>home</i>
+        <div>Home</div>
+    </a>
+    <a href="./logout">
+        <i>logout</i>
+        <div>Logout</div>
+    </a>
+</nav>
+<nav class="bottom s">
+    <img src="static/parxfull.png" class="circle margin">
+    <a href="./studentEvents">
+        <i>event</i>
+        <div>Events</div>
+    </a>
+    <a href="./home">
+        <i>home</i>
+        <div>Home</div>
+    </a>
+    <a href="./logout">
+        <i>logout</i>
+        <div>Logout</div>
+    </a>
+</nav>
+{{end}}
+{{template "navbar"}}
+<main class="responsive max">
+    <article>
+        <h1>High School Name, District</h1>
+        <h1>Name</h1>
+    </article>
+
+    <article>
+        <h1>Current Leader</h1>
+        <h3>End of competition</h3>
+    </article>
+    <article>
+        <h1>9th Grade</h1>
+        <ol>
+            <li>100</li>
+        </ol>
+    </article>
+    <article>
+        <h1>10th Grade</h1>
+        <ol>
+            <li>100</li>
+        </ol>
+    </article>
+    <article>
+        <h1>11th Grade</h1>
+        <ol>
+            <li>100</li>
+        </ol>
+    </article>
+    <article>
+        <h1>12th Grade</h1>
+        <ol>
+            <li>100</li>
+        </ol>
+    </article>
+    <article>
+        <h1> your points: </h1>
+        <h2>100</h2>
+    </article>
+    <article>
+        <h1>Random Winners:</h1>
+        <h2>9th:</h2>
+        <h2>10th:</h2>
+        <h2>11th:</h2>
+        <h2>12th:</h2>
+    </article>
+    <article>
+        <h1>This Quarters Prizes:</h1>
+        <ul>
+            <li><h2>School: 100</h2></li>
+            <li><h2>Food: 200</h2></li>
+            <li><h2>Spirit: 500</h2></li>
+        </ul>
+    </article>
+</main>
+</body>
+</html>
