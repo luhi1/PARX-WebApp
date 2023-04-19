@@ -41,6 +41,7 @@ CREATE TABLE `Sports`
 CREATE TABLE `Events`
 (
     `EventID`             BIGINT UNSIGNED   NOT NULL AUTO_INCREMENT,
+    `EventName`            VARCHAR(255)      NOT NULL,
     `Points`              SMALLINT UNSIGNED NOT NULL,
     `EventDescription`    TEXT              NOT NULL,
     `EventDate`           DATE              NOT NULL,
