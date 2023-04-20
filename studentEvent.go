@@ -1,11 +1,10 @@
 package main
 
 import (
-	"html/template"
 	"net/http"
 )
 
-func GETHandlerEvents(writer http.ResponseWriter, request *http.Request) {
+func (e *EventInfo) GETStudentHandler(writer http.ResponseWriter, request *http.Request) {
 	events := []EventInfo{}
 	//SEMI-SCUFFED WAY OF MAKING THE USER NOT BE ABLE TO ACCESS HOME IF NOT LOGGED IN, CONSIDER USING COOKIES
 
@@ -35,14 +34,4 @@ func GETHandlerEvents(writer http.ResponseWriter, request *http.Request) {
 	if err != nil {
 		return
 	}
-}
-func tplExec2(w http.ResponseWriter, filename string, information any, filename2 string) error {
-	temp := template.Must(template.ParseFiles(filename, filename2))
-
-	err := temp.Execute(w, information)
-	//@TODO: REMOVE
-	if err != nil {
-		return err
-	}
-	return nil
 }
