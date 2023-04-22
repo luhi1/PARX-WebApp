@@ -2,8 +2,10 @@ package main
 
 import (
 	"crypto/sha256"
+	"database/sql"
 	"encoding/base64"
 	"fmt"
+	_ "github.com/go-sql-driver/mysql"
 	"html/template"
 	"net/http"
 )
@@ -19,6 +21,8 @@ type TeacherPageHandlers interface {
 	valHandler(writer http.ResponseWriter, request *http.Request)
 	dataVal(requestMethod string) bool
 }
+
+var db *sql.DB
 
 // Start server run, files, and other shit.
 func main() {
@@ -59,10 +63,22 @@ func main() {
 		}
 	})
 
+	initdb, err := sql.Open("mysql", "root:test@tcp(127.0.0.1:3306)/fbla")
+
+	if err != nil {
+		panic(err)
+	}
+
+	defer db.Close()
+
+	db = initdb
+
+	fmt.Println("Connected to DB")
+
 	/*@todo: Add this to the setup wizard eventually */
 	fmt.Println("Server is running on port 8082")
 
-	err := http.ListenAndServe(":8082", nil)
+	err = http.ListenAndServe(":8082", nil)
 	if err != nil {
 		fmt.Println("Error starting server, aborting tasks")
 		panic(err)
@@ -70,7 +86,7 @@ func main() {
 }
 
 func tplExec(w http.ResponseWriter, filename string, information any) error {
-	temp := template.Must(template.ParseFiles(filename))
+	temp := template.Must(template.ParseFiles("./WebPages/" + filename))
 
 	err := temp.Execute(w, information)
 	//@TODO: REMOVE

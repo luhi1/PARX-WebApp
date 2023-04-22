@@ -11,6 +11,7 @@ type UserData struct {
 	Grade        int
 	IdNumber     int
 	passwordHash string
+	points       int
 	valid        DisplayError
 }
 
@@ -45,7 +46,23 @@ func (u *UserData) valHandler(writer http.ResponseWriter, request *http.Request)
 	u.passwordHash = hashPswd(request.FormValue("password"))
 
 	if err != nil || u.dataVal(strings.TrimPrefix(request.URL.Path, "/userValidation/")) {
-		http.Redirect(writer, request, "../teacherEvents", 307)
+		insert := db.QueryRow("select users.studentname, users.points, grades.GradeLevel from users left join grades on users.UserID = grades.ID where users.UserID = ? && users.Password = ?;", strconv.Itoa(u.IdNumber), u.passwordHash)
+		insert.Scan(&u.Name, &u.points, &u.Grade)
+		if u.Name == "" && u.points == 0 && u.Grade == 0 {
+			u.valid = DisplayError{"Invalid Credentials"}
+			if strings.TrimPrefix(request.URL.Path, "/userValidation/") == "signup" {
+				http.Redirect(writer, request, "../signup", 303)
+			} else {
+				http.Redirect(writer, request, "../login", 303)
+			}
+		} else {
+			if u.IdNumber == 1354252 {
+				http.Redirect(writer, request, "../home", 307)
+			}
+			if u.IdNumber == 1 {
+				http.Redirect(writer, request, "../teacherEvents", 307)
+			}
+		}
 	} else {
 		u.valid = DisplayError{"Invalid Credentials"}
 		if strings.TrimPrefix(request.URL.Path, "/userValidation/") == "signup" {
