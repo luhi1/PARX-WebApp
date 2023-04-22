@@ -1,3 +1,4 @@
+drop schema  `fbla`;
 CREATE SCHEMA `fbla`;
 use fbla;
 CREATE TABLE `Grades`
@@ -74,24 +75,25 @@ CREATE TABLE `Events`
     `EventDescription`    TEXT              NOT NULL,
     `EventDate`           DATE              NOT NULL,
     `RoomNumber`          SMALLINT          NOT NULL,
+    `Advisors` varchar(255) not null,
     `Location`            VARCHAR(255)      NOT NULL,
     `LocationDescription` TEXT              NOT NULL,
     `SportID`             BIGINT UNSIGNED   NOT NULL,
     PRIMARY KEY (`EventID`),
     FOREIGN KEY (`SportID`) REFERENCES Sports (ID)
 );
-insert into events(EventName, Points, EventDescription, EventDate, RoomNumber, Location, LocationDescription, SportID)
+insert into events(EventName, Points, EventDescription, EventDate, RoomNumber, Advisors, Location, LocationDescription, SportID)
 values
-    ('SportEvent1', 10000, 'SE', '1000-01-02', 1, 'Here', 'Here', 1),
-    ('SportEvent2', 20000, 'SE', '2000-02-02', 2, 'Here', 'Here', 2),
-    ('SportEvent3', 30000, 'SE', '3000-03-03', 3, 'Here', 'Here', 3),
-    ('SportEvent4', 40000, 'SE', '4000-04-04', 4, 'Here', 'Here', 4),
-    ('SportEvent5', 50000, 'SE', '5000-05-05', 5, 'Here', 'Here', 5),
-    ('RegEvent1', 10000, 'RE', '1000-01-01', 1, 'Here', 'Here', 6),
-    ('RegEvent2', 20000, 'RE', '2000-02-02', 2, 'Here', 'Here', 6),
-    ('RegEvent3', 30000, 'RE', '3000-03-03', 3, 'Here', 'Here', 6),
-    ('RegEvent4', 40000, 'RE', '4000-04-04', 4, 'Here', 'Here', 6),
-    ('RegEvent5', 50000, 'RE', '5000-05-05', 5, 'Here', 'Here', 6);
+    ('SportEvent1', 10000, 'SE', '1000-01-02', 1, 'Joe', 'Here', 'Here', 1),
+    ('SportEvent2', 20000, 'SE', '2000-02-02', 2, 'Joe', 'Here', 'Here', 2),
+    ('SportEvent3', 30000, 'SE', '3000-03-03', 3, 'Joe', 'Here', 'Here', 3),
+    ('SportEvent4', 40000, 'SE', '4000-04-04', 4, 'Joe', 'Here', 'Here', 4),
+    ('SportEvent5', 50000, 'SE', '5000-05-05', 5, 'Joe', 'Here', 'Here', 5),
+    ('RegEvent1', 10000, 'RE', '1000-01-01', 1, 'Joe', 'Here', 'Here', 6),
+    ('RegEvent2', 20000, 'RE', '2000-02-02', 2, 'Joe', 'Here', 'Here', 6),
+    ('RegEvent3', 30000, 'RE', '3000-03-03', 3, 'Joe', 'Here', 'Here', 6),
+    ('RegEvent4', 40000, 'RE', '4000-04-04', 4, 'Joe', 'Here', 'Here', 6),
+    ('RegEvent5', 50000, 'RE', '5000-05-05', 5, 'Joe', 'Here', 'Here', 6);
 CREATE TABLE `UserEvents`
 (
     `UserID`  MEDIUMINT UNSIGNED NOT NULL,

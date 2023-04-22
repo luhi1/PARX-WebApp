@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 )
 
@@ -12,15 +13,35 @@ type Prize struct {
 
 func (p *Prize) GETHandler(writer http.ResponseWriter, request *http.Request) {
 	var prizes []Prize
-	prizes = append(prizes, Prize{
-		PrizeName: "asdfsd",
-		PrizeWinners: []StudentAttendance{
-			{
-				StudentName:   "asdf",
-				StudentNumber: 12,
-			},
-		},
-	})
+	//select PrizeName, StudentName from userprizes left join prizes on userprizes.PrizeID = prizes.ID left join users on userprizes.UserID = users.UserID
+	insert, err := db.Query("select PrizeName from prizes")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	for insert.Next() {
+		*p = Prize{}
+		insert.Scan(&p.PrizeName)
+		prizes = append(prizes, *p)
+	}
+
+	rows, err := db.Query("select PrizeName, StudentName, users.UserID from userprizes left join prizes on userprizes.PrizeID = prizes.ID left join users on userprizes.UserID = users.UserID")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	currentPrizeNumber := 0
+	currentPrizeName := prizes[0].PrizeName
+	for rows.Next() {
+		*p = Prize{}
+		a := StudentAttendance{}
+		rows.Scan(&p.PrizeName, &a.StudentName, &a.StudentNumber)
+		if p.PrizeName != currentPrizeName {
+			currentPrizeNumber++
+			currentPrizeName = prizes[currentPrizeNumber].PrizeName
+		}
+		prizes[currentPrizeNumber].PrizeWinners = append(prizes[currentPrizeNumber].PrizeWinners, a)
+	}
 
 	tplExec(writer, "prizes.gohtml", prizes)
 }
