@@ -70,7 +70,7 @@
 <main class="responsive max">
   {{range $index, $val := .}}
     <div id="{{.EventName}}" name="{{.EventName}}">
-      <form method="post" action="/TBD" class="large-padding responsive" id="EventImage"
+      <form method="post" action="/eventValidation/teacherEvents" class="large-padding responsive" id="EventImage"
             style="background-image:url(https://imgs.search.brave.com/t7Yvrb1hUdpgBGo5uFgr5D00fh3-MYTaJCYpsVW1vQk/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly93d3cu/Z2FubmV0dC1jZG4u/Y29tL3ByZXN0by8y/MDIwLzEwLzE4L05M/RUQvYWM5N2VlMTAt/YjhhMy00YTdjLWI1/OWYtNzkxZWRjYjZk/YWE3LUFQMjAyOTI2/NDY0MzQ5MjQuanBn/P2Nyb3A9NTEyMywy/ODgyLHgwLHkyNjAm/d2lkdGg9MzIwMCZo/ZWlnaHQ9MTgwMSZm/b3JtYXQ9cGpwZyZh/dXRvPXdlYnA);">
         <header class="blur">
           <nav>
@@ -155,7 +155,7 @@
               {{range $index, $val := .Attendance}}
                 <div class="row round">
                   <label class="checkbox">
-                    <input type="checkbox" name="Attendee{{$index}}" id="Attendee{{$index}}" value="{{.StudentNumber}}">
+                    <input type="checkbox" {{.Attended}} name="Attendee{{$index}}" id="Attendee{{$index}}" value="{{.StudentNumber}}">
                     <span>
                                 </span>
                   </label>
@@ -170,7 +170,7 @@
           <div class="space"></div>
           <nav class="left-align">
             <button type="reset" class="blur">Reset</button>
-            <button type="remove" class="blur">Remove</button>
+            <button type="submit" value = "remove" formaction="./removeEvent" class="blur">Remove</button>
             <button type="submit" class="blur">Save</button>
           </nav>
         </article>

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 	"strings"
@@ -46,7 +47,7 @@ func (u *UserData) valHandler(writer http.ResponseWriter, request *http.Request)
 	u.passwordHash = hashPswd(request.FormValue("password"))
 
 	if err != nil || u.dataVal(strings.TrimPrefix(request.URL.Path, "/userValidation/")) {
-		insert := db.QueryRow("select users.studentname, users.points, grades.GradeLevel from users left join grades on users.UserID = grades.ID where users.UserID = ? && users.Password = ?;", strconv.Itoa(u.IdNumber), u.passwordHash)
+		insert := db.QueryRow("select users.studentname, users.Points, grades.GradeLevel from users left join grades on users.GradeID = grades.ID where users.UserID = ? && users.Password = ?;", strconv.Itoa(u.IdNumber), u.passwordHash)
 		insert.Scan(&u.Name, &u.points, &u.Grade)
 		if u.Name == "" && u.points == 0 && u.Grade == 0 {
 			u.valid = DisplayError{"Invalid Credentials"}
@@ -56,11 +57,10 @@ func (u *UserData) valHandler(writer http.ResponseWriter, request *http.Request)
 				http.Redirect(writer, request, "../login", 303)
 			}
 		} else {
-			if u.IdNumber == 1354252 {
-				http.Redirect(writer, request, "../home", 307)
-			}
 			if u.IdNumber == 1 {
 				http.Redirect(writer, request, "../teacherEvents", 307)
+			} else {
+				http.Redirect(writer, request, "../home", 307)
 			}
 		}
 	} else {
@@ -87,9 +87,21 @@ func (u *UserData) dataVal(requestMethod string) bool {
 		u.Grade != 11 && u.Grade != 12) || u.Name == "") {
 		valid = false
 	}
-	//here we can check if the password matches the one in our database
-	if !valid {
-		*u = UserData{}
+
+	if valid && requestMethod == "signup" {
+		getGrade := db.QueryRow("select ID from grades where GradeLevel = ?;", u.Grade)
+		getGrade.Scan(&u.Grade)
+		result, err := db.Exec(
+			"insert into users(UserID, StudentName, Password, Points, GradeID) values(?, ?, ?, 0, ?);",
+			u.IdNumber,
+			u.Name,
+			u.passwordHash,
+			u.Grade,
+		)
+		if err != nil {
+			return false
+		}
+		fmt.Println(result.RowsAffected())
 	}
 	return valid
 }
