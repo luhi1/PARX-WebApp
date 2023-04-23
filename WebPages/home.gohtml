@@ -46,58 +46,176 @@
 {{end}}
 {{template "navbar"}}
 <main class="responsive max">
+
     <article>
-        <h1>High School Name, District</h1>
-        <h1>Name</h1>
+        <h1>Technologies Academy HS, CCSD</h1>
+        <h1>{{.Name}}</h1>
+        <h1>{{.Grade}}</h1>
     </article>
 
     <article>
         <h1>Current Leader</h1>
-        <h3>End of competition</h3>
+        <h3>End of competition (May 22)</h3>
     </article>
+    <div class="grid m l">
+    <div class="m8 l6">
     <article>
         <h1>9th Grade</h1>
-        <ol>
-            <li>100</li>
-        </ol>
+        <table>
+            <tbody>
+            <tr>
+                {{range .NinthWinners}}
+                    <td>{{.}}'s points:</td>
+                {{end}}
+            </tr>
+            <tr>
+                {{range .Grade9Points}}
+                <td>{{.}}</td>
+                {{end}}
+            </tr>
+            </tbody>
+        </table>
     </article>
     <article>
         <h1>10th Grade</h1>
-        <ol>
-            <li>100</li>
-        </ol>
+        <table>
+        <tbody>
+        <tr>
+            {{range .TenthWinners}}
+                <td>{{.}}'s points:</td>
+            {{end}}
+        </tr>
+        <tr>
+            {{range .Grade10Points}}
+                <td>{{.}}</td>
+            {{end}}
+        </tr>
+        </tbody></table>
     </article>
     <article>
         <h1>11th Grade</h1>
-        <ol>
-            <li>100</li>
-        </ol>
+        <table>
+        <tbody>
+        <tr>
+            {{range .EleventhWinners}}
+                <td>{{.}}'s points:</td>
+            {{end}}
+        </tr>
+        <tr>
+            {{range .Grade11Points}}
+                <td>{{.}}</td>
+            {{end}}
+        </tr>
+        </tbody></table>
     </article>
     <article>
         <h1>12th Grade</h1>
-        <ol>
-            <li>100</li>
-        </ol>
+        <table>
+        <tbody>
+        <tr>
+            {{range .TwelfthWinners}}
+                <td>{{.}}'s points:</td>
+            {{end}}
+        </tr>
+        <tr>
+            {{range .Grade12Points}}
+                <td>{{.}}</td>
+            {{end}}
+        </tr>
+        </tbody></table>
     </article>
+    </div>
+
+    <div class="m4 l6">
     <article>
         <h1> your points: </h1>
-        <h2>100</h2>
+        <h2>{{.Points}}</h2>
     </article>
     <article>
         <h1>Random Winners:</h1>
-        <h2>9th:</h2>
-        <h2>10th:</h2>
-        <h2>11th:</h2>
-        <h2>12th:</h2>
+        <h2>9th: {{.RandomNinthWinner}}</h2>
+        <h2>10th: {{.RandomTenthWinner}}</h2>
+        <h2>11th: {{.RandomEleventhWinner}}</h2>
+        <h2>12th: {{.RandomTwelfthWinner}}</h2>
+
     </article>
     <article>
         <h1>This Quarters Prizes:</h1>
         <ul>
-            <li><h2>School: 100</h2></li>
-            <li><h2>Food: 200</h2></li>
-            <li><h2>Spirit: 500</h2></li>
+            {{range .Prizes}}
+            <li><h2>{{.Name}}: {{.Threshold}}</h2></li>
+            {{end}}
         </ul>
     </article>
+    </div>
+    </div>
+    <div class="s">
+        <article>
+            <h1>9th Grade</h1>
+            <table>
+                <tbody>
+                <tr>
+                    {{range .NinthWinners}}
+                        <td>{{.}}'s points:</td>
+                    {{end}}
+                </tr>
+                <tr>
+                    {{range .Grade9Points}}
+                        <td>{{.}}</td>
+                    {{end}}
+                </tr>
+                </tbody>
+            </table>
+        </article>
+        <article>
+            <h1>10th Grade</h1>
+            <table>
+                <tbody>
+                <tr>
+                    {{range .TenthWinners}}
+                        <td>{{.}}'s points:</td>
+                    {{end}}
+                </tr>
+                <tr>
+                    {{range .Grade10Points}}
+                        <td>{{.}}</td>
+                    {{end}}
+                </tr>
+                </tbody></table>
+        </article>
+        <article>
+            <h1>11th Grade</h1>
+            <table>
+                <tbody>
+                <tr>
+                    {{range .EleventhWinners}}
+                        <td>{{.}}'s points:</td>
+                    {{end}}
+                </tr>
+                <tr>
+                    {{range .Grade11Points}}
+                        <td>{{.}}</td>
+                    {{end}}
+                </tr>
+                </tbody></table>
+        </article>
+        <article>
+            <h1>12th Grade</h1>
+            <table>
+                <tbody>
+                <tr>
+                    {{range .TwelfthWinners}}
+                        <td>{{.}}'s points:</td>
+                    {{end}}
+                </tr>
+                <tr>
+                    {{range .Grade12Points}}
+                        <td>{{.}}</td>
+                    {{end}}
+                </tr>
+                </tbody></table>
+        </article>
+    </div>
 </main>
 </body>
 </html>
