@@ -1,0 +1,1 @@
+select users.UserID, users.StudentName, userevents.Attended from userevents left join users on userevents.UserID = users.UserID where eventID = 3e
