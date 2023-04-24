@@ -57,9 +57,18 @@ func main() {
 	http.HandleFunc("/studentEvents", studentEventInformation.GETStudentHandler)
 	http.HandleFunc("/dropOut", studentEventInformation.dropOutHandler)
 	http.HandleFunc("/home", homeData.GETStudentHandler)
+	http.HandleFunc("/quarterReport", winners.report)
+	http.HandleFunc("/studentSignupEvent", studentEventInformation.studentSignupEventHandler)
 	http.HandleFunc("/logout", func(writer http.ResponseWriter, request *http.Request) {
 		userInfo = UserData{}
 		http.Redirect(writer, request, "./login", 307)
+	})
+	http.HandleFunc("/qna", func(writer http.ResponseWriter, request *http.Request) {
+		multiTplExec(writer, "qna.gohtml", nil, "home.gohtml")
+	})
+	http.HandleFunc("/bugs", func(writer http.ResponseWriter, request *http.Request) {
+		request.ParseForm()
+		db.Exec("insert into bugs(bugs) values(?)", request.FormValue("ProblemDesc"))
 	})
 
 	http.HandleFunc("/", func(writer http.ResponseWriter, request *http.Request) {

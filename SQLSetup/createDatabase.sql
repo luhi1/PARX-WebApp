@@ -108,6 +108,11 @@ CREATE TABLE `UserEvents`
     FOREIGN KEY (EventID) references Events (EventID),
     FOREIGN KEY (UserID) references Users (UserID)
 );
+create table bugs(
+    `Bugs` text,
+    `ID` BIGINT AUTO_INCREMENT,
+    PRIMARY KEY (ID)
+);
 insert into UserEvents(UserID, EventId, Attended)
 values
     (1354252, 1, 'true'),

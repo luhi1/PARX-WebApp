@@ -67,5 +67,32 @@ func (se *studentEventInfo) dropOutHandler(writer http.ResponseWriter, request *
 		return
 	}
 	fmt.Println(exec.RowsAffected())
+
+	addition, _ := db.Exec("update users set Points = Points-10 where userID = ?", se.U.IdNumber)
+	fmt.Println(addition.RowsAffected())
+	insert := db.QueryRow("select Points from users where userID = ?", se.U.IdNumber)
+	insert.Scan(&se.U.Points)
+	http.Redirect(writer, request, "./studentEvents", 307)
+}
+func (se *studentEventInfo) studentSignupEventHandler(writer http.ResponseWriter, request *http.Request) {
+	err := request.ParseForm()
+	if err != nil {
+		return
+	}
+	se.EventID, err = strconv.Atoi(request.FormValue("EventID"))
+	if err != nil {
+		return
+	}
+	exec, err := db.Exec("insert into userevents(userid, eventid, attended) values(?,?,'false')", se.U.IdNumber, se.EventID)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println(exec.RowsAffected())
+
+	addition, _ := db.Exec("update users set Points = Points+10 where userID = ?", se.U.IdNumber)
+	insert := db.QueryRow("select Points from users where userID = ?", se.U.IdNumber)
+	insert.Scan(&se.U.Points)
+	fmt.Println(addition.RowsAffected())
 	http.Redirect(writer, request, "./studentEvents", 307)
 }
