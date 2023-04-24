@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="google" content="notranslate">
+  <title>Hello world</title>
+  <link href="https://cdn.jsdelivr.net/npm/beercss@3.1.1/dist/cdn/beer.min.css" rel="stylesheet">
+  <script type="module" src="https://cdn.jsdelivr.net/npm/beercss@3.1.1/dist/cdn/beer.min.js"></script>
+  <script type="module"
+          src="https://cdn.jsdelivr.net/npm/material-dynamic-colors@0.1.7/dist/cdn/material-dynamic-colors.min.js"></script>
+</head>
+<body class="light">
+{{template "navbar"}}
+<main class="responsive max">
+  <div class="field large prefix round fill">
+    <i class="front">search</i>
+    <input placeholder="Search text">
+    <div class="dropdown min">
+      <header class="fixed">
+        <div class="field large prefix suffix no-margin">
+          <i class="front">arrow_backward</i>
+          <input id = "searchbar" onkeyup="
+
+      let input = document.getElementById('searchbar').value
+      input=input.toLowerCase();
+      let x = document.getElementsByClassName('Event');
+
+      for (i = 0; i < x.length; i++) {
+          if (!x[i].id.toLowerCase().includes(input)) {
+              x[i].style.display = 'none'
+          }
+          else {
+            x[i].style.display = 'block';
+          }
+        }
+          "
+
+          placeholder="Search text">
+          <i class="front">close</i>
+        </div>
+      </header>
+    </div>
+  </div>
+  {{range $index, $val := .}}
+    <div class = "Event" id="{{.EventName}}" name="{{.EventName}}">
+      <form method="post" action="/eventValidation/teacherEvents" class="large-padding responsive" id="EventImage"
+            style="background-image:url(https://th.bing.com/th/id/OIP.wPXZZXX8NeXOdeFQaVxy_QHaEH?pid=ImgDet&rs=1);">
+        <header class="blur">
+          <nav>
+            <h5 id = "EventName" class="max">{{.EventName}}</h5>
+          </nav>
+        </header>
+        <article class="large-blur">
+          <div class="grid">
+            <div class="s12 l4">
+              <div class="field label border">
+                <article>Point-Value: {{.Points}}</article>
+              </div>
+            </div>
+            <div class="s12 l4">
+              <div class="field label border">
+                <article>Event Description: {{.EventDescription}}</article>
+              </div>
+            </div>
+            <div class="s12 l4">
+              <div class="field label border">
+                <article>
+                  <label>
+                    <input disabled value = "{{.EventDate}}" type="date">
+                  </label>Date of Event</article>
+              </div>
+            </div>
+            <div class="s12 l4">
+              <div class="field label border">
+                <article>Room Number: {{.RoomNumber}}</article>
+              </div>
+            </div>
+            <div class="s12 l4">
+              <div class="field label border">
+                <article>Advisor Names: {{.AdvisorNames}}</article>
+              </div>
+            </div>
+            <div class="s12 l4">
+              <div class="field label border">
+                <article>Location: {{.Location}}</article>
+              </div>
+            </div>
+            <div class="s12 l4">
+              <div class="field label border">
+                <article>Location Description: {{.LocationDescription}}</article>
+              </div>
+            </div>
+            <div class="s12 l4">
+              <div class="field label border">
+                <article>Sport: {{.Sport}}</article>
+              </div>
+            </div>
+            <div class="s12 l4">
+              <div class="field label border">
+                <article>Sport Description: {{.SportDescription}}</article>
+              </div>
+            </div>
+          </div>
+          <form>
+            <label>
+              <input id = "EventID" name = "EventID" value = "{{.EventID}}" style = "scale: 0%" type = "int">
+            </label>
+          </form>
+          {{if .Attended}}
+            <button formaction = "/dropOut" type="submit" class="blur">Drop Out</button>
+          {{else}}
+            <button type="submit" formaction = "/studentSignupEvent" class="blur">Sign Up</button>
+          {{end}}
+          </article>
+      </form>
+    </div>
+  {{end}}
+</main>
+</body>
+</html>

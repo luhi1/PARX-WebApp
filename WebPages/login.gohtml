@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@1.*/css/pico.min.css">
+  <title>ParX Login</title>
+</head>
+<body>
+<main class="container">
+  <div>
+    <article class="grid">
+      <div>
+        <hgroup>
+          <h1><kbd><strong>ParX</strong></kbd></h1>
+          <h6>
+            <blockquote>
+              "The shortest distance between two points is a straight line."
+              <footer>
+                <cite>- Archimedes</cite>
+              </footer>
+            </blockquote>
+          </h6>
+        </hgroup>
+      </div>
+      <form action="/userValidation/login" method="POST">
+        <kbd>
+          <text>{{.ErrorDescription}}</text>
+        </kbd>
+        <input type="number" id="IdNumber" max="9999999" name="IdNumber" placeholder="Student ID #"
+               required="required">
+        <input type="password" id="password" name="password" placeholder="Password" required="required">
+        <button type="submit" class="primary">Log In</button>
+        <a href="/signup">
+          <text>Sign Up</text>
+        </a>
+      </form>
+    </article>
+  </div>
+</main>
+</body>
+</html>

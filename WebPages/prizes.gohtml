@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="google" content="notranslate">
+    <title>Hello world</title>
+    <link href="https://cdn.jsdelivr.net/npm/beercss@3.1.1/dist/cdn/beer.min.css" rel="stylesheet">
+    <script type="module" src="https://cdn.jsdelivr.net/npm/beercss@3.1.1/dist/cdn/beer.min.js"></script>
+    <script type="module"
+            src="https://cdn.jsdelivr.net/npm/material-dynamic-colors@0.1.7/dist/cdn/material-dynamic-colors.min.js"></script>
+</head>
+<body class="light">
+<nav class="left m l">
+    <img src="../static/parxfull.png" class="circle margin">
+    <a href="./teacherEvents">
+        <i>event</i>
+        <div>Events</div>
+    </a>
+    <a href="./teacherCreateEvent">
+        <i>create</i>
+        <div>Make Event</div>
+    </a>
+    <a href="./winners">
+        <i>done</i>
+        <div>Winners</div>
+    </a>
+    <a href="./prizes">
+        <i>star</i>
+        <div>Prizes</div>
+    </a>
+    <a href="./createPrize">
+        <i>create</i>
+        <div>Make Prize</div>
+    </a>
+    <a href="./quarterReport">
+        <i>description</i>
+        <div>Generate Quarter Report</div>
+    </a>
+    <a href="./logout">
+        <i>logout</i>
+        <div>Logout</div>
+    </a>
+</nav>
+
+<nav class="bottom s">
+    <img src="../static/parxfull.png" class="circle margin">
+    <a href="./teacherEvents">
+        <i>event</i>
+        <div>Events</div>
+    </a>
+    <a href="./teacherCreateEvent">
+        <i>create</i>
+        <div>Make Event</div>
+    </a>
+    <a href="./winners">
+        <i>done</i>
+        <div>Winners</div>
+    </a>
+    <a href="./prizes">
+        <i>star</i>
+        <div>Prizes</div>
+    </a>
+    <a href="./createPrize">
+        <i>create</i>
+        <div>Make Prize</div>
+    </a>
+    <a href="./quarterReport">
+        <i>description</i>
+        <div>Generate Quarter Report</div>
+    </a>
+    <a href="./logout">
+        <i>logout</i>
+        <div>Logout</div>
+    </a>
+</nav>
+<main class="responsive">
+    <article>
+        <h6>These students need to receive their prizes.</h6>
+    </article>
+
+    {{range $index, $val := .}}
+        <article class="blur">
+            <form action="./prizeChecking" method="post">
+                <div id="list">
+                    <h6>{{.PrizeName}}</h6>
+                    <input type="text" id="PrizeName" value="{{.PrizeName}}" name="PrizeName"
+                           required="required" style = "scale: 0%">
+                    <div class="bold helper">Check off the student when you give them their prize!</div>
+                    {{range $index, $val := .PrizeWinners}}
+                        <div class="row round">
+                            <label class="checkbox">
+                                <input type="checkbox" {{.Attended}} name="prizeWinner" id="prizeWinner"
+                                       value="{{.StudentNumber}}">
+                                <span>
+                                </span>
+                            </label>
+                            <div>{{.StudentName}}; {{.StudentNumber}}</div>
+                            <a>
+
+                            </a>
+                        </div>
+                    {{end}}
+                </div>
+                <button value="submit" type="submit">Submit</button>
+            </form>
+        </article>
+    {{end}}
+</main>
+</body>
+</html>

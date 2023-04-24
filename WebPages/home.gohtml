@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="google" content="notranslate">
+    <title>Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/beercss@3.1.1/dist/cdn/beer.min.css" rel="stylesheet">
+    <script type="module" src="https://cdn.jsdelivr.net/npm/beercss@3.1.1/dist/cdn/beer.min.js"></script>
+    <script type="module"
+            src="https://cdn.jsdelivr.net/npm/material-dynamic-colors@0.1.7/dist/cdn/material-dynamic-colors.min.js"></script>
+</head>
+<body>
+{{define "navbar"}}
+<nav class="left m l">
+    <img src="../static/parxfull.png" class="circle margin">
+    <a href="./studentEvents">
+        <i>event</i>
+        <div>Events</div>
+    </a>
+    <a href="./home">
+        <i>home</i>
+        <div>Home</div>
+    </a>
+    <a href="./qna">
+        <i>q&a</i>
+        <div>Q&A</div>
+    </a>
+    <a href="./logout">
+        <i>logout</i>
+        <div>Logout</div>
+    </a>
+
+</nav>
+<nav class="bottom s">
+    <img src="../static/parxfull.png" class="circle margin">
+    <a href="./studentEvents">
+        <i>event</i>
+        <div>Events</div>
+    </a>
+    <a href="./home">
+        <i>home</i>
+        <div>Home</div>
+    </a>
+    <a href="./qna">
+        <i>q&a</i>
+        <div>Q&A</div>
+    </a>
+    <a href="./logout">
+        <i>logout</i>
+        <div>Logout</div>
+    </a>
+</nav>
+{{end}}
+{{template "navbar"}}
+<main class="responsive">
+    <article>
+        <h6>Clark County School District</h6>
+        <h6>{{.U.Name}}</h6>
+        <h6>Grade: {{.U.Grade}}</h6>
+        <h6>Points: {{.U.Points}}</h6>
+    </article>
+
+    <article class="blur">
+        <h6><strong>Prizes</strong></h6>
+        {{range $index, $val := .Prizes}}
+        <h6>{{$val.PrizeName}}: {{$val.Points}} Points Threshold</h6>
+        {{end}}
+    </article>
+    <div class="grid">
+        <div class="s12 m6 l3">
+            <article class="small">
+                <div class="progress left">
+
+                </div>
+                <h5>9th Winners</h5>
+                <ol>
+                    {{range $v := .Winners.NinthWinners}}
+                        <li>{{$v}}</li>
+                    {{end}}
+                </ol>
+            </article>
+        </div>
+        <div class="s12 m6 l3">
+            <article class="small">
+                <div class="progress left">
+
+                </div>
+                <h5>10th Winners</h5>
+                <ol>
+                    {{range $v := .Winners.TenthWinners}}
+                        <li>{{$v}}</li>
+                    {{end}}
+                </ol>
+            </article>
+        </div>
+        <div class="s12 m6 l3">
+            <article class="small">
+                <div class="progress left">
+
+                </div>
+                <h5>11th Winners</h5>
+                <ol>
+                    {{range $v := .Winners.EleventhWinners}}
+                        <li>{{$v}}</li>
+                    {{end}}
+                </ol>
+            </article>
+        </div>
+        <div class="s12 m6 l3">
+            <article class="small">
+                <div class="progress left">
+
+                </div>
+                <h5>12th Winners</h5>
+                <ol>
+                    {{range $v := .Winners.TwelvthWinners}}
+                        <li>{{$v}}</li>
+                    {{end}}
+                </ol>
+            </article>
+        </div>
+    </div>
+</main>
+</body>
+</html>

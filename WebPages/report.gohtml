@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="google" content="notranslate">
+  <title>Hello world</title>
+  <link href="https://cdn.jsdelivr.net/npm/beercss@3.1.1/dist/cdn/beer.min.css" rel="stylesheet">
+  <script type="module" src="https://cdn.jsdelivr.net/npm/beercss@3.1.1/dist/cdn/beer.min.js"></script>
+  <script type="module"
+          src="https://cdn.jsdelivr.net/npm/material-dynamic-colors@0.1.7/dist/cdn/material-dynamic-colors.min.js"></script>
+</head>
+<body class="light">
+<nav class="left m l">
+  <img src="../static/parxfull.png" class="circle margin">
+  <a href="./teacherEvents">
+    <i>event</i>
+    <div>Events</div>
+  </a>
+  <a href="./teacherCreateEvent">
+    <i>create</i>
+    <div>Make Event</div>
+  </a>
+  <a href="./winners">
+    <i>done</i>
+    <div>Winners</div>
+  </a>
+  <a href="./prizes">
+    <i>star</i>
+    <div>Prizes</div>
+  </a>
+  <a href="./createPrize">
+    <i>create</i>
+    <div>Make Prize</div>
+  </a>
+  <a href="./quarterReport">
+    <i>description</i>
+    <div>Generate Quarter Report</div>
+  </a>
+  <a href="./logout">
+    <i>logout</i>
+    <div>Logout</div>
+  </a>
+</nav>
+
+<nav class="bottom s">
+  <img src="../static/parxfull.png" class="circle margin">
+  <a href="./teacherEvents">
+    <i>event</i>
+    <div>Events</div>
+  </a>
+  <a href="./teacherCreateEvent">
+    <i>create</i>
+    <div>Make Event</div>
+  </a>
+  <a href="./winners">
+    <i>done</i>
+    <div>Winners</div>
+  </a>
+  <a href="./prizes">
+    <i>star</i>
+    <div>Prizes</div>
+  </a>
+  <a href="./createPrize">
+    <i>create</i>
+    <div>Make Prize</div>
+  </a>
+  <a href="./quarterReport">
+    <i>description</i>
+    <div>Generate Quarter Report</div>
+  </a>
+  <a href="./logout">
+    <i>logout</i>
+    <div>Logout</div>
+  </a>
+</nav>
+<main class="responsive max">
+  <article>
+    <h5>9th Grade Leaderboard</h5>
+    <ol>
+      {{range $v := .NinthWinners}}
+        <li>{{$v}}</li>
+      {{end}}
+    </ol>
+  </article>
+  <article>
+    <h5>10th Grade Leaderboard</h5>
+    <ol>
+      {{range $v := .TenthWinners}}
+        <li>{{$v}}</li>
+      {{end}}
+    </ol>
+  </article>
+  <article>
+    <h5>11th Grade Leaderboard</h5>
+    <ol>
+      {{range $v := .EleventhWinners}}
+        <li>{{$v}}</li>
+      {{end}}
+    </ol>
+  </article>
+  <article>
+    <h5>12th Grade Leaderboard</h5>
+    <ol>
+      {{range $v := .TwelvthWinners}}
+        <li>{{$v}}</li>
+      {{end}}
+    </ol>
+  </article>
+</main>
+</body>
+</html>

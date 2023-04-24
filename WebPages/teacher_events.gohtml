@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="google" content="notranslate">
+  <title>Hello world</title>
+  <link href="https://cdn.jsdelivr.net/npm/beercss@3.1.1/dist/cdn/beer.min.css" rel="stylesheet">
+  <script type="module" src="https://cdn.jsdelivr.net/npm/beercss@3.1.1/dist/cdn/beer.min.js"></script>
+  <script type="module"
+          src="https://cdn.jsdelivr.net/npm/material-dynamic-colors@0.1.7/dist/cdn/material-dynamic-colors.min.js"></script>
+</head>
+<body class="light">
+<nav class="left m l">
+  <img src="../static/parxfull.png" class="circle margin">
+  <a href="./teacherEvents">
+    <i>event</i>
+    <div>Events</div>
+  </a>
+  <a href="./teacherCreateEvent">
+    <i>create</i>
+    <div>Make Event</div>
+  </a>
+  <a href="./winners">
+    <i>done</i>
+    <div>Winners</div>
+  </a>
+  <a href="./prizes">
+    <i>star</i>
+    <div>Prizes</div>
+  </a>
+  <a href="./createPrize">
+    <i>create</i>
+    <div>Make Prize</div>
+  </a>
+  <a href="./quarterReport">
+    <i>description</i>
+    <div>Generate Quarter Report</div>
+  </a>
+  <a href="./logout">
+    <i>logout</i>
+    <div>Logout</div>
+  </a>
+</nav>
+
+<nav class="bottom s">
+  <img src="../static/parxfull.png" class="circle margin">
+  <a href="./teacherEvents">
+    <i>event</i>
+    <div>Events</div>
+  </a>
+  <a href="./teacherCreateEvent">
+    <i>create</i>
+    <div>Make Event</div>
+  </a>
+  <a href="./winners">
+    <i>done</i>
+    <div>Winners</div>
+  </a>
+  <a href="./prizes">
+    <i>star</i>
+    <div>Prizes</div>
+  </a>
+  <a href="./createPrize">
+    <i>create</i>
+    <div>Make Prize</div>
+  </a>
+  <a href="./quarterReport">
+    <i>description</i>
+    <div>Generate Quarter Report</div>
+  </a>
+  <a href="./logout">
+    <i>logout</i>
+    <div>Logout</div>
+  </a>
+</nav>
+<main class="responsive max">
+  <div class="field large prefix round fill">
+    <i class="front">search</i>
+    <input placeholder="Search text">
+    <div class="dropdown min">
+      <header class="fixed">
+        <div class="field large prefix suffix no-margin">
+          <i class="front">arrow_backward</i>
+          <input id = "searchbar" onkeyup="
+
+      let input = document.getElementById('searchbar').value
+      input=input.toLowerCase();
+      let x = document.getElementsByClassName('Event');
+
+      for (i = 0; i < x.length; i++) {
+          if (!x[i].id.toLowerCase().includes(input)) {
+              x[i].style.display = 'none'
+          }
+          else {
+            x[i].style.display = 'block';
+          }
+        }
+          "
+
+          placeholder="Search text">
+          <i class="front">close</i>
+        </div>
+      </header>
+    </div>
+  </div>
+  {{range $index, $val := .}}
+    <div class = "Event" id="{{.EventName}}" name="{{.EventName}}">
+      <form method="post" action="/eventValidation/teacherEvents" class="large-padding responsive" id="EventImage"
+            style="background-image:url(https://th.bing.com/th/id/OIP.wPXZZXX8NeXOdeFQaVxy_QHaEH?pid=ImgDet&rs=1);">
+        <header class="blur">
+          <nav>
+            <h5 id = "EventName" class="max">{{.EventName}}</h5>
+          </nav>
+        </header>
+        <article class="large-blur">
+          <div class="grid">
+            <div class="s12 l4">
+              <div class="field label border">
+                <input type="number" id="Points" max="9999999" value="{{.Points}}" name="Points" required="required"
+                       style="clip-path: polygon(0% 0%, 0.75rem 0%, 0.75rem 0.5rem, 3.0625rem 0.5rem, 3.0625rem 0%, 100% 0%, 100% 100%, 0% 100%);">
+                <label class="active">Points</label>
+              </div>
+            </div>
+            <div class="s12 l4">
+              <div class="field label border">
+                <input type="text" id="EventDescription" value="{{.EventDescription}}" name="EventDescription"
+                       required="required"
+                       style="clip-path: polygon(0% 0%, 0.75rem 0%, 0.75rem 0.5rem, 3.0625rem 0.5rem, 3.0625rem 0%, 100% 0%, 100% 100%, 0% 100%);">
+                <input type="text" id="EventName" value="{{.EventName}}" name="EventName"
+                       required="required" style = "scale: 0%">
+                <label class="active">Event Description</label>
+              </div>
+            </div>
+            <div class="s12 l4">
+              <div class="field label border">
+                <input type="date"
+                       name="EventDate"
+                       value="{{.EventDate}}"
+                       id="EventDate"
+                       required="required"
+                       style="clip-path: polygon(0% 0%, 0.75rem 0%, 0.75rem 0.5rem, 3.0625rem 0.5rem, 3.0625rem 0%, 100% 0%, 100% 100%, 0% 100%);">
+                <label class="active">Date</label>
+              </div>
+            </div>
+            <div class="s12 l4">
+              <div class="field label border">
+                <input type="number" value="{{.RoomNumber}}" id="RoomNumber" max="9999999" name="RoomNumber"
+                       style="clip-path: polygon(0% 0%, 0.75rem 0%, 0.75rem 0.5rem, 3.0625rem 0.5rem, 3.0625rem 0%, 100% 0%, 100% 100%, 0% 100%);">
+                <label class="active">Room Number</label>
+              </div>
+            </div>
+            <div class="s12 l4">
+              <div class="field label border">
+                <input type="text" id="AdvisorNames" value="{{.AdvisorNames}}" name="AdvisorNames" required="required"
+                       style="clip-path: polygon(0% 0%, 0.75rem 0%, 0.75rem 0.5rem, 3.0625rem 0.5rem, 3.0625rem 0%, 100% 0%, 100% 100%, 0% 100%);">
+                <label class="active">Advisor Name(s)</label>
+              </div>
+            </div>
+            <div class="s12 l4">
+              <div class="field label border">
+                <input type="text" id="Location" value="{{.Location}}" name="Location" required="required"
+                       style="clip-path: polygon(0% 0%, 0.75rem 0%, 0.75rem 0.5rem, 3.0625rem 0.5rem, 3.0625rem 0%, 100% 0%, 100% 100%, 0% 100%);">
+                <label class="active">Location</label>
+              </div>
+            </div>
+            <div class="s12 l4">
+              <div class="field label border">
+                <input type="text" id="LocationDescription" value="{{.LocationDescription}}" name="LocationDescription"
+                       style="clip-path: polygon(0% 0%, 0.75rem 0%, 0.75rem 0.5rem, 3.0625rem 0.5rem, 3.0625rem 0%, 100% 0%, 100% 100%, 0% 100%);">
+                <label class="active">Location Description</label>
+              </div>
+            </div>
+            <div class="s12 l4">
+              <div class="field label border">
+                <input type="text" id="Sport" value="{{.Sport}}" name="Sport"
+                       style="clip-path: polygon(0% 0%, 0.75rem 0%, 0.75rem 0.5rem, 3.0625rem 0.5rem, 3.0625rem 0%, 100% 0%, 100% 100%, 0% 100%);">
+                <label class="active">Sport Name</label>
+              </div>
+            </div>
+            <div class="s12 l4">
+              <div class="field label border">
+                <input type="text" id="SportDescription" value="{{.SportDescription}}" name="SportDescription"
+                       style="clip-path: polygon(0% 0%, 0.75rem 0%, 0.75rem 0.5rem, 3.0625rem 0.5rem, 3.0625rem 0%, 100% 0%, 100% 100%, 0% 100%);">
+                <label class="active">Sport Description</label>
+              </div>
+            </div>
+          </div>
+          <article class="right-shadow">
+            <div id="list">
+              <h6 class="white-text">Attendance</h6>
+              <div class="bold helper">Check off every student who attends your event!</div>
+              {{range $index, $val := .Attendance}}
+                <div class="row round">
+                  <label class="checkbox">
+                    <input type="checkbox" {{.Attended}} name="Attendee" id="Attendee" value="{{.StudentNumber}}">
+                    <span>
+                                </span>
+                  </label>
+                  <div>{{.StudentName}}; {{.StudentNumber}}</div>
+                  <a>
+
+                  </a>
+                </div>
+                {{end}}
+            </div>
+          </article>
+          <div class="space"></div>
+          <nav class="left-align">
+            <button type="reset" class="blur">Reset</button>
+            <button type="submit" value = "remove" formaction="./removeEvent" class="blur">Remove</button>
+            <button type="submit" class="blur">Save</button>
+          </nav>
+        </article>
+      </form>
+    </div>
+  {{end}}
+</main>
+</body>
+</html>
