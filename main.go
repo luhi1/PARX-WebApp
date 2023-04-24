@@ -69,6 +69,7 @@ func main() {
 	http.HandleFunc("/bugs", func(writer http.ResponseWriter, request *http.Request) {
 		request.ParseForm()
 		db.Exec("insert into bugs(bugs) values(?)", request.FormValue("ProblemDesc"))
+		http.Redirect(writer, request, "/home", 307)
 	})
 
 	http.HandleFunc("/", func(writer http.ResponseWriter, request *http.Request) {

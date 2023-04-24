@@ -28,8 +28,18 @@ insert into users(UserID, StudentName, `Points`, Password, GradeID)
 values
     (1354252, 'Michael', 10000, 'ypeBEsobvcr6wjGzmiPcTaeG7_gUfE5yuYB3ha_uSLs=', 2),
     (1, 'Teacher', 1000000, 'ypeBEsobvcr6wjGzmiPcTaeG7_gUfE5yuYB3ha_uSLs=', 5),
-    (3, 'Joe', 10000, 'ypeBEsobvcr6wjGzmiPcTaeG7_gUfE5yuYB3ha_uSLs=', 2),
-    (2, 'Carlo', 1000000, 'ypeBEsobvcr6wjGzmiPcTaeG7_gUfE5yuYB3ha_uSLs=', 3);
+    (123, 'Joe', 10300, 'ypeBEsobvcr6wjGzmiPcTaeG7_gUfE5yuYB3ha_uSLs=', 2),
+    (223, 'Miguel', 2100, 'ypeBEsobvcr6wjGzmiPcTaeG7_gUfE5yuYB3ha_uSLs=', 2),
+    (323, 'Alex', 11000, 'ypeBEsobvcr6wjGzmiPcTaeG7_gUfE5yuYB3ha_uSLs=', 2),
+    (113, 'Nathan', 1900, 'ypeBEsobvcr6wjGzmiPcTaeG7_gUfE5yuYB3ha_uSLs=', 1),
+    (213, 'Noah', 1800, 'ypeBEsobvcr6wjGzmiPcTaeG7_gUfE5yuYB3ha_uSLs=', 1),
+    (313, 'Rae', 9000, 'ypeBEsobvcr6wjGzmiPcTaeG7_gUfE5yuYB3ha_uSLs=', 1),
+    (143, 'Hector', 20000, 'ypeBEsobvcr6wjGzmiPcTaeG7_gUfE5yuYB3ha_uSLs=', 4),
+    (243, 'Chad', 15000, 'ypeBEsobvcr6wjGzmiPcTaeG7_gUfE5yuYB3ha_uSLs=', 4),
+    (343, 'Vishnu', 8000, 'ypeBEsobvcr6wjGzmiPcTaeG7_gUfE5yuYB3ha_uSLs=', 4),
+    (133, 'Kevin', 7000, 'ypeBEsobvcr6wjGzmiPcTaeG7_gUfE5yuYB3ha_uSLs=', 3),
+    (233, 'Harold', 5000, 'ypeBEsobvcr6wjGzmiPcTaeG7_gUfE5yuYB3ha_uSLs=', 3),
+    (332, 'Carlo', 10000, 'ypeBEsobvcr6wjGzmiPcTaeG7_gUfE5yuYB3ha_uSLs=', 3);
 CREATE TABLE `Prizes`
 (
     `ID`             BIGINT UNSIGNED   NOT NULL AUTO_INCREMENT,
@@ -54,8 +64,20 @@ CREATE TABLE `UserPrizes`
 insert into userprizes(PrizeID, UserID, Attended)
 values
     (1, 1354252, 'true'),
-    (2, 1354252, 'true'),
-    (3, 1354252, 'true');
+    (1, 123, 'true'),
+    (1, 223, 'false'),
+    (1, 323, 'true'),
+    (2, 1354252, 'false'),
+    (2, 113, 'true'),
+    (2, 213, 'false'),
+    (2, 313, 'true'),
+    (2, 143, 'true'),
+    (3, 243, 'true'),
+    (3, 343, 'true'),
+    (3, 133, 'true'),
+    (3, 233, 'true'),
+
+    (3, 332, 'true');
 CREATE TABLE `Sports`
 (
     `ID`               BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -89,16 +111,16 @@ CREATE TABLE `Events`
 );
 insert into events(EventName, Points, EventDescription, EventDate, RoomNumber, Advisors, Location, LocationDescription, SportID, Active)
 values
-    ('SportEvent1', 10000, 'SE', '1000-01-02', 1, 'Joe', 'Here', 'Here', 1, true),
-    ('SportEvent2', 20000, 'SE', '2000-02-02', 2, 'Joe', 'Here', 'Here', 2, true),
+    ('Matchup 1', 10000, 'Eldo v Atech', '1000-01-02', 1, 'Joe', 'Here', 'Here', 1, true),
+    ('Matchup 2', 20000, 'Eldo v Clark', '2000-02-02', 2, 'Joe', 'Here', 'Here', 2, true),
     ('SportEvent3', 30000, 'SE', '3000-03-03', 3, 'Joe', 'Here', 'Here', 3, false),
-    ('SportEvent4', 40000, 'SE', '4000-04-04', 4, 'Joe', 'Here', 'Here', 4, true),
-    ('SportEvent5', 50000, 'SE', '5000-05-05', 5, 'Joe', 'Here', 'Here', 5, true),
-    ('RegEvent1', 10000, 'RE', '1000-01-01', 1, 'Joe', 'Here', 'Here', 6, true),
-    ('RegEvent2', 20000, 'RE', '2000-02-02', 2, 'Joe', 'Here', 'Here', 6, false),
-    ('RegEvent3', 30000, 'RE', '3000-03-03', 3, 'Joe', 'Here', 'Here', 6, false),
-    ('RegEvent4', 40000, 'RE', '4000-04-04', 4, 'Joe', 'Here', 'Here', 6, true),
-    ('RegEvent5', 50000, 'RE', '5000-05-05', 5, 'Joe', 'Here', 'Here', 6, true);
+    ('Matchup 4', 40000, 'Clark V. WCTA', '4000-04-04', 4, 'Joe', 'Here', 'Here', 4, true),
+    ('Matchup 5', 50000, 'WCTA V. SECTA', '5000-05-05', 5, 'Joe', 'Here', 'Here', 5, true),
+    ('Library Meetup', 10000, 'Wow so fun!', '1000-01-01', 1, 'Joe', 'Here', 'Here', 6, true),
+    ('Library Burning', 20000, 'WOW SO FUN!', '2000-02-02', 2, 'Joe', 'Here', 'Here', 6, false),
+    ('Library Reconciling', 30000, 'sorry.', '3000-03-03', 3, 'Joe', 'Here', 'Here', 6, false),
+    ('Jack Hangout', 40000, 'His mom is onto us', '4000-04-04', 4, 'Joe', 'Here', 'Here', 6, true),
+    ('Carlo and Michael Study', 50000, ';)', '5000-05-05', 5, 'Joe', 'Here', 'Here', 6, true);
 CREATE TABLE `UserEvents`
 (
     `UserID`  MEDIUMINT UNSIGNED NOT NULL,
@@ -116,16 +138,33 @@ create table bugs(
 insert into UserEvents(UserID, EventId, Attended)
 values
     (1354252, 1, 'true'),
-    (1, 1, 'true'),
+    (123, 1, 'true'),
+    (223, 1, 'true'),
     (1354252, 2, 'false'),
+    (323, 2, 'false'),
+    (113, 2, 'true'),
+    (243, 2, 'true'),
+    (143, 3, 'true'),
+    (243, 3, 'true'),
+    (133, 3, 'true'),
     (1354252, 3, 'false'),
+    (143, 4, 'true'),
+    (123, 4, 'false'),
     (1354252, 4, 'false'),
+    (343, 5, 'false'),
+    (133, 5, 'false'),
+    (332, 5, 'false'),
     (1354252, 5, 'true'),
     (1354252, 6, 'true'),
+    (323, 6, 'true'),
+    (113, 6, 'false'),
+    (213, 6, 'true'),
     (1354252, 7, 'false'),
+    (313, 7, 'true'),
+    (123, 7, 'true'),
+    (243, 7, 'false'),
     (1354252, 8, 'true'),
-    (1354252, 9, 'true'),
-    (1354252, 10, 'true');
+    (1354252, 9, 'true');
 AlTER TABLE `Grades`
     ADD FOREIGN KEY (RandomWinner) REFERENCES Users (UserID);
 ALTER TABLE `Users`

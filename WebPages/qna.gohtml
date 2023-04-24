@@ -35,12 +35,15 @@
         <h2>
             How do I report problems on this website?
         </h2>
-        <p class="bold">
-            Type in your problem below, and we will resolve the issue.
-        </p>
-        <form>
-            <input type="text" id="ProblemDesc" value="Describe your problem  here.">
-            <button type="submit" formaction = "./bugs" class="blur">submit</button>
+        <form method="post">
+        <div class="s12 l4">
+            <div class="field label border">
+                <input type="text" id="ProblemDesc"  value="{{.Points}}" name="ProblemDesc" required="required"
+                       style="clip-path: polygon(0% 0%, 0.75rem 0%, 0.75rem 0.5rem, 3.0625rem 0.5rem, 3.0625rem 0%, 100% 0%, 100% 100%, 0% 100%);">
+                <label class="active">Type your problem here!</label>
+            </div>
+        </div>
+            <button type="submit" formaction = "./bugs" class="blur">Submit</button>
         </form>
     </article>
 </main>

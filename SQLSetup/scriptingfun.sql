@@ -1,1 +1,1 @@
-select * from userevents where UserID = 1354252
+select * from bugs
