@@ -45,7 +45,8 @@ func main() {
 
 	http.HandleFunc("/winners", winners.GETHandler)
 	http.HandleFunc("/prizes", prize.GETHandler)
-
+	http.HandleFunc("/eventValidation/", eventInfo.valHandler)
+	http.HandleFunc("/removeEvent", eventInfo.removeHandler)
 	http.HandleFunc("/logout", func(writer http.ResponseWriter, request *http.Request) {
 		userInfo = UserData{}
 		http.Redirect(writer, request, "./login", 307)
@@ -63,7 +64,7 @@ func main() {
 		}
 	})
 
-	initdb, err := sql.Open("mysql", "root:test@tcp(127.0.0.1:3306)/fbla")
+	initdb, err := sql.Open("mysql", "root:root@tcp(127.0.0.1:3306)/fbla")
 
 	if err != nil {
 		panic(err)

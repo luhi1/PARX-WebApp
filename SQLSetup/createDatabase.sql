@@ -109,6 +109,7 @@ CREATE TABLE `UserEvents`
 insert into UserEvents(UserID, EventId, Attended)
 values
     (1354252, 1, 'true'),
+    (1, 1, 'true'),
     (1354252, 2, 'false'),
     (1354252, 3, 'false'),
     (1354252, 4, 'false'),
