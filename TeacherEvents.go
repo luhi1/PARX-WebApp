@@ -132,10 +132,14 @@ func (e *EventInfo) valHandler(writer http.ResponseWriter, request *http.Request
 
 		insert := db.QueryRow("select EventID from events where EventName = ?;", e.EventName)
 		insert.Scan(&e.EventID)
+
 		minion, _ := db.Exec("update userevents set Attended = 'false' where EventID = ?;", e.EventID)
 		fmt.Println(minion.RowsAffected())
 		for i := 0; i < len(e.Attendance); i++ {
 			fmt.Println(e.Attendance[i].StudentNumber)
+			//Change it to add points when the homies sign up for an event.
+			addition, _ := db.Exec("update users set Points = Points+10 where userID = ?", e.Attendance[i].StudentNumber)
+			fmt.Println(addition.RowsAffected())
 			vector, _ := db.Exec("update userevents set Attended = 'true' where EventID = ? and UserID = ?", e.EventID, e.Attendance[i].StudentNumber)
 			fmt.Println(vector.RowsAffected())
 		}
@@ -168,6 +172,19 @@ func (e *EventInfo) removeHandler(writer http.ResponseWriter, request *http.Requ
 		return
 	}
 	fmt.Println(exec.RowsAffected())
+
+	insert, _ := db.Query("select UserID from userevents where Attended = 'false' and EventID = ?", e.EventID)
+
+	var subtracters []int
+	for insert.Next() {
+		var currentSubtracter int
+		insert.Scan(&currentSubtracter)
+		subtracters = append(subtracters, currentSubtracter)
+	}
+	for i := 0; i < len(subtracters); i++ {
+		addition, _ := db.Exec("update users set Points = Points-10 where userID = ?", subtracters[i])
+		fmt.Println(addition.RowsAffected())
+	}
 	http.Redirect(writer, request, "./teacherEvents", 307)
 }
 

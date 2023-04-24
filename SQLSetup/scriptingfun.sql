@@ -1,1 +1,1 @@
-SELECT users.UserID FROM users ORDER BY RAND() LIMIT 4;
+select Points from users where userID = 1354252

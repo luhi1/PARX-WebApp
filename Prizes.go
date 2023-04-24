@@ -3,12 +3,13 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"strconv"
 )
 
-// EventInfo @TODO: Figure out how to pass a file -> struct -> SQL
 type Prize struct {
 	PrizeName    string
 	PrizeWinners []StudentAttendance
+	Points       int
 }
 
 func (p *Prize) GETHandler(writer http.ResponseWriter, request *http.Request) {
@@ -25,7 +26,7 @@ func (p *Prize) GETHandler(writer http.ResponseWriter, request *http.Request) {
 		prizes = append(prizes, *p)
 	}
 
-	rows, err := db.Query("select PrizeName, StudentName, users.UserID from userprizes left join prizes on userprizes.PrizeID = prizes.ID left join users on userprizes.UserID = users.UserID")
+	rows, err := db.Query("select PrizeName, StudentName, Attended, users.UserID from userprizes left join prizes on userprizes.PrizeID = prizes.ID left join users on userprizes.UserID = users.UserID")
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -35,7 +36,10 @@ func (p *Prize) GETHandler(writer http.ResponseWriter, request *http.Request) {
 	for rows.Next() {
 		*p = Prize{}
 		a := StudentAttendance{}
-		rows.Scan(&p.PrizeName, &a.StudentName, &a.StudentNumber)
+		rows.Scan(&p.PrizeName, &a.StudentName, &a.Attended, &a.StudentNumber)
+		if a.Attended == "true" {
+			a.Attended = "checked"
+		}
 		if p.PrizeName != currentPrizeName {
 			currentPrizeNumber++
 			currentPrizeName = prizes[currentPrizeNumber].PrizeName
@@ -47,14 +51,53 @@ func (p *Prize) GETHandler(writer http.ResponseWriter, request *http.Request) {
 }
 
 func (p *Prize) POSTHandler(writer http.ResponseWriter, request *http.Request) {
-	//@todo: Implement.
+	err := tplExec(writer, "createPrize.gohtml", p)
+	if err != nil {
+		return
+	}
 }
 
 func (p *Prize) valHandler(writer http.ResponseWriter, request *http.Request) {
-	//@todo: Implement Data Validation.
+	err := request.ParseForm()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	p.PrizeName = request.FormValue("PrizeName")
+	var prizeID int
+	insert := db.QueryRow("select ID from prizes where PrizeName = ?", p.PrizeName)
+	insert.Scan(&prizeID)
+	for i := 0; i < len(request.Form["prizeWinner"]); i++ {
+		currentHomie, _ := strconv.Atoi(request.Form["prizeWinner"][i])
+		p.PrizeWinners = append(p.PrizeWinners, StudentAttendance{StudentNumber: currentHomie, Attended: "true"})
+	}
+	update, _ := db.Exec("update userprizes set Attended = 'false' where PrizeID = ?;", prizeID)
+	fmt.Println(update.RowsAffected())
+	for i := 0; i < len(p.PrizeWinners); i++ {
+		vector, _ := db.Exec("update userprizes set Attended = 'true' where PrizeID = ? and UserID = ?", prizeID, p.PrizeWinners[i].StudentNumber)
+		fmt.Println(vector.RowsAffected())
+	}
+	http.Redirect(writer, request, "./prizes", 307)
 }
 
 func (p *Prize) dataVal(requestMethod string) bool {
-	//@todo: Implement Data Validation.
-	return false
+	if p.PrizeName == "" || p.Points < 1 {
+		return false
+	}
+	return true
+}
+
+func (p *Prize) createPrize(writer http.ResponseWriter, request *http.Request) {
+	err := request.ParseForm()
+	if err != nil {
+		return
+	}
+	p.PrizeName = request.FormValue("PrizeName")
+	p.Points, _ = strconv.Atoi(request.FormValue("Points"))
+	fmt.Println(p.dataVal(""))
+	if p.dataVal("") {
+		insert, _ := db.Exec("insert into prizes(prizename, PointThreshold) values(?,?)", p.PrizeName, p.Points)
+		fmt.Println(insert.RowsAffected())
+	}
+	http.Redirect(writer, request, "./prizes", 307)
 }

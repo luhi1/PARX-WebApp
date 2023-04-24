@@ -76,37 +76,37 @@
     </a>
 </nav>
 <main class="responsive">
-    <article>
-        <h6>These students need to receive their prizes.</h6>
-    </article>
-
-    {{range $index, $val := .}}
-        <article class="blur">
-            <form action="./prizeChecking" method="post">
-                <div id="list">
-                    <h6>{{.PrizeName}}</h6>
-                    <input type="text" id="PrizeName" value="{{.PrizeName}}" name="PrizeName"
-                           required="required" style = "scale: 0%">
-                    <div class="bold helper">Check off the student when you give them their prize!</div>
-                    {{range $index, $val := .PrizeWinners}}
-                        <div class="row round">
-                            <label class="checkbox">
-                                <input type="checkbox" {{.Attended}} name="prizeWinner" id="prizeWinner"
-                                       value="{{.StudentNumber}}">
-                                <span>
-                                </span>
-                            </label>
-                            <div>{{.StudentName}}; {{.StudentNumber}}</div>
-                            <a>
-
-                            </a>
-                        </div>
-                    {{end}}
+    <div id="teacherEvent" name="teacherEvent">
+        <form method="post" action="/createPrizes" class="large-padding responsive" id="EventImage">
+            <header class="blur">
+                <nav>
+                    <h5 class="max">Create a Prize Here!</h5>
+                </nav>
+            </header>
+            <article class="large-blur">
+                <div class="field label border">
+                    <input type="text" id="PrizeName" value="" name="PrizeName" required="required"
+                           style="clip-path: polygon(0% 0%, 0.75rem 0%, 0.75rem 0.5rem, 3.0625rem 0.5rem, 3.0625rem 0%, 100% 0%, 100% 100%, 0% 100%);">
+                    <label class="active">PrizeName</label>
                 </div>
-                <button value="submit" type="submit">Submit</button>
-            </form>
-        </article>
-    {{end}}
+                <div class="grid">
+                    <div class="s12 l4">
+                        <div class="field label border">
+                            <input type="number" id="Points" max="9999999" value="" name="Points" required="required"
+                                   style="clip-path: polygon(0% 0%, 0.75rem 0%, 0.75rem 0.5rem, 3.0625rem 0.5rem, 3.0625rem 0%, 100% 0%, 100% 100%, 0% 100%);">
+                            <label class="active">Points</label>
+                        </div>
+                    </div>
+                </div>
+            </article>
+            <div class="grid">
+                <nav class="left-align">
+                    <button type="reset" class="blur">Remove</button>
+                    <button type="submit" class="blur">Save</button>
+                </nav>
+            </div>
+        </form>
+    </div>
 </main>
 </body>
 </html>
