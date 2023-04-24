@@ -30,6 +30,8 @@ func main() {
 	eventInfo := EventInfo{}
 	prize := Prize{}
 	winners := Winners{}
+	homeData := HomeData{U: &userInfo}
+	studentEventInformation := studentEventInfo{U: &userInfo}
 	fs := http.FileServer(http.Dir("./static"))
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
 
@@ -52,6 +54,9 @@ func main() {
 	http.HandleFunc("/prizeChecking", prize.valHandler)
 	http.HandleFunc("/createPrize", prize.POSTHandler)
 	http.HandleFunc("/createPrizes", prize.createPrize)
+	http.HandleFunc("/studentEvents", studentEventInformation.GETStudentHandler)
+	http.HandleFunc("/dropOut", studentEventInformation.dropOutHandler)
+	http.HandleFunc("/home", homeData.GETStudentHandler)
 	http.HandleFunc("/logout", func(writer http.ResponseWriter, request *http.Request) {
 		userInfo = UserData{}
 		http.Redirect(writer, request, "./login", 307)

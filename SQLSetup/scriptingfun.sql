@@ -1,1 +1,1 @@
-select Points from users where userID = 1354252
+select * from userevents where UserID = 1354252

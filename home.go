@@ -1,8 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"html/template"
 	"net/http"
+	"strconv"
 )
 
 type StudentPageHandlers interface {
@@ -12,28 +14,49 @@ type PrizeData struct {
 	Name      string
 	Threshold int
 }
+
 type HomeData struct {
-	Name   string
-	Grade  int
-	Points int
-	//the following can be changed later, it was just convenient and I liked it as a solution, but it may not work
-	Grade9Points         []int
-	Grade10Points        []int
-	Grade11Points        []int
-	Grade12Points        []int
-	NinthWinners         []string
-	TenthWinners         []string
-	EleventhWinners      []string
-	TwelfthWinners       []string
-	RandomNinthWinner    string
-	RandomTenthWinner    string
-	RandomEleventhWinner string
-	RandomTwelfthWinner  string
-	Prizes               []PrizeData
+	U       *UserData
+	Prizes  []Prize
+	Winners Winners
 }
 
-func (e *HomeData) GETStudentHandler(writer http.ResponseWriter, request *http.Request) {
-	err := tplExec(writer, "home.gohtml", *e)
+func (h *HomeData) GETStudentHandler(writer http.ResponseWriter, request *http.Request) {
+	h.Prizes = []Prize{}
+	h.Winners = Winners{}
+	insert, err := db.Query("select PrizeName, PointThreshold from prizes")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	for insert.Next() {
+		p := Prize{}
+		insert.Scan(&p.PrizeName, &p.Points)
+		h.Prizes = append(h.Prizes, p)
+	}
+
+	rows, err := db.Query("select StudentName, Points, GradeLevel from users left join grades on users.GradeID = grades.ID order by GradeLevel, Points desc;")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	for rows.Next() {
+		currentWinner := Winner{}
+		rows.Scan(&currentWinner.StudentName, &currentWinner.Points, &currentWinner.GradeLevel)
+		switch currentWinner.GradeLevel {
+		case 9:
+			h.Winners.NinthWinners = append(h.Winners.NinthWinners, currentWinner.StudentName+"; Points: "+strconv.Itoa(currentWinner.Points))
+		case 10:
+			h.Winners.TenthWinners = append(h.Winners.TenthWinners, currentWinner.StudentName+"; Points: "+strconv.Itoa(currentWinner.Points))
+		case 11:
+			h.Winners.EleventhWinners = append(h.Winners.EleventhWinners, currentWinner.StudentName+"; Points: "+strconv.Itoa(currentWinner.Points))
+		case 12:
+			h.Winners.TwelvthWinners = append(h.Winners.TwelvthWinners, currentWinner.StudentName+"; Points: "+strconv.Itoa(currentWinner.Points))
+		}
+	}
+
+	fmt.Println(h.U.Name)
+	err = tplExec(writer, "home.gohtml", *h)
 	//@TODO: REMOVE
 	if err != nil {
 		return

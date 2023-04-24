@@ -137,7 +137,7 @@ func (e *EventInfo) valHandler(writer http.ResponseWriter, request *http.Request
 		fmt.Println(minion.RowsAffected())
 		for i := 0; i < len(e.Attendance); i++ {
 			fmt.Println(e.Attendance[i].StudentNumber)
-			//Change it to add points when the homies sign up for an event.
+			//Change it to add Points when the homies sign up for an event.
 			addition, _ := db.Exec("update users set Points = Points+10 where userID = ?", e.Attendance[i].StudentNumber)
 			fmt.Println(addition.RowsAffected())
 			vector, _ := db.Exec("update userevents set Attended = 'true' where EventID = ? and UserID = ?", e.EventID, e.Attendance[i].StudentNumber)
@@ -222,7 +222,7 @@ func (e *EventInfo) createEvent(writer http.ResponseWriter, request *http.Reques
 			}
 			sportID = int(getSportID)
 		}
-		result, err := db.Exec("insert into events(eventname, points, eventdescription, eventdate, roomnumber, advisors, location, locationdescription, sportid, active) VALUES (?,?,?,?,?,?,?,?,?,?)",
+		result, err := db.Exec("insert into events(eventname, Points, eventdescription, eventdate, roomnumber, advisors, location, locationdescription, sportid, active) VALUES (?,?,?,?,?,?,?,?,?,?)",
 			e.EventName, e.Points, e.EventDescription, e.EventDate, e.RoomNumber, e.AdvisorNames, e.Location, e.LocationDescription, sportID, e.Active)
 		if err != nil {
 			fmt.Println(err)
