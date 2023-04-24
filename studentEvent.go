@@ -29,7 +29,7 @@ func (e *EventInfo) GETStudentHandler(writer http.ResponseWriter, request *http.
 			},
 		})
 	}*/
-	err := tplExec2(writer, "studentEvents.gohtml", events, "home.gohtml")
+	err := multiTplExec(writer, "studentEvents.gohtml", events, "home.gohtml")
 	//@TODO: REMOVE
 	if err != nil {
 		return

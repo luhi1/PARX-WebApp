@@ -40,9 +40,9 @@ func (e *HomeData) GETStudentHandler(writer http.ResponseWriter, request *http.R
 	}
 }
 
-func tplExec2(w http.ResponseWriter, filename string, information any, filename2 string) error {
+func multiTplExec(w http.ResponseWriter, filename string, information any, filename2 string) error {
 	//tplExec may be different now because /webpages ???
-	temp := template.Must(template.ParseFiles(filename, filename2))
+	temp := template.Must(template.ParseFiles("WebPages/"+filename, "WebPages/"+filename2))
 
 	err := temp.Execute(w, information)
 	//@TODO: REMOVE
