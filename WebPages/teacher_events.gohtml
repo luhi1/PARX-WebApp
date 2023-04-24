@@ -74,7 +74,7 @@
             style="background-image:url(https://imgs.search.brave.com/t7Yvrb1hUdpgBGo5uFgr5D00fh3-MYTaJCYpsVW1vQk/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly93d3cu/Z2FubmV0dC1jZG4u/Y29tL3ByZXN0by8y/MDIwLzEwLzE4L05M/RUQvYWM5N2VlMTAt/YjhhMy00YTdjLWI1/OWYtNzkxZWRjYjZk/YWE3LUFQMjAyOTI2/NDY0MzQ5MjQuanBn/P2Nyb3A9NTEyMywy/ODgyLHgwLHkyNjAm/d2lkdGg9MzIwMCZo/ZWlnaHQ9MTgwMSZm/b3JtYXQ9cGpwZyZh/dXRvPXdlYnA);">
         <header class="blur">
           <nav>
-            <h5 class="max">{{.EventName}}</h5>
+            <h5 id = "EventName" class="max">{{.EventName}}</h5>
           </nav>
         </header>
         <article class="large-blur">
@@ -91,6 +91,8 @@
                 <input type="text" id="EventDescription" value="{{.EventDescription}}" name="EventDescription"
                        required="required"
                        style="clip-path: polygon(0% 0%, 0.75rem 0%, 0.75rem 0.5rem, 3.0625rem 0.5rem, 3.0625rem 0%, 100% 0%, 100% 100%, 0% 100%);">
+                <input type="text" id="EventName" value="{{.EventName}}" name="EventName"
+                       required="required" style = "scale: 0%">
                 <label class="active">Event Description</label>
               </div>
             </div>
@@ -155,7 +157,7 @@
               {{range $index, $val := .Attendance}}
                 <div class="row round">
                   <label class="checkbox">
-                    <input type="checkbox" {{.Attended}} name="Attendee{{$index}}" id="Attendee{{$index}}" value="{{.StudentNumber}}">
+                    <input type="checkbox" {{.Attended}} name="Attendee" id="Attendee" value="{{.StudentNumber}}">
                     <span>
                                 </span>
                   </label>
@@ -164,7 +166,7 @@
 
                   </a>
                 </div>
-              {{end}}
+                {{end}}
             </div>
           </article>
           <div class="space"></div>

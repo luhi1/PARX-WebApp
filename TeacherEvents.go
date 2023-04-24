@@ -42,7 +42,7 @@ func (e *EventInfo) GETHandler(writer http.ResponseWriter, request *http.Request
 		*e = EventInfo{}
 		a := StudentAttendance{}
 		rows.Scan(&e.EventID, &e.EventName, &e.Points, &e.EventDescription, &e.EventDate, &e.RoomNumber, &e.Location, &e.LocationDescription, &e.Sport, &e.SportDescription, &e.AdvisorNames, &e.Active)
-		attendanceQ, err := db.Query("select users.UserID, users.StudentName, userevents.Attended from userevents left join users on userevents.UserID = users.UserID where EventID = ?", eventID)
+		attendanceQ, err := db.Query("select users.UserID, users.StudentName, userevents.Attended from userevents left join users on userevents.UserID = users.UserID where EventID = ?", e.EventID)
 		if err != nil {
 			fmt.Println(err)
 			return
@@ -54,9 +54,9 @@ func (e *EventInfo) GETHandler(writer http.ResponseWriter, request *http.Request
 					a.Attended = "checked"
 				}
 			}
+			e.Attendance = append(e.Attendance, a)
 		}
 		if e.Active {
-			e.Attendance = append(e.Attendance, a)
 			events = append(events, *e)
 		}
 	}
@@ -88,6 +88,7 @@ func (e *EventInfo) valHandler(writer http.ResponseWriter, request *http.Request
 		http.Redirect(writer, request, "./error", 303)
 		return
 	}
+	e.EventName = request.FormValue("EventName")
 	e.Points, _ = strconv.Atoi(request.FormValue("Points"))
 	e.EventDescription = request.FormValue("EventDescription")
 	e.EventDate = request.FormValue("EventDate")
@@ -97,49 +98,74 @@ func (e *EventInfo) valHandler(writer http.ResponseWriter, request *http.Request
 	e.LocationDescription = request.FormValue("LocationDescription")
 	e.Sport = request.FormValue("Sport")
 	e.SportDescription = request.FormValue("SportDescription")
-	attendanceNum, _ := strconv.Atoi(request.FormValue("Atendee")[7:])
-	for attendanceNum >= 0 {
-		attendanceBruh := strconv.Itoa(attendanceNum)
-		e.Attendance[attendanceNum].StudentNumber, _ = strconv.Atoi(request.FormValue("Attendee" + attendanceBruh))
-		e.Attendance[attendanceNum].Attended = "true"
-		attendanceNum--
+	e.Active = true
+	for i := 0; i < len(request.Form["Attendee"]); i++ {
+		currentHomie, _ := strconv.Atoi(request.Form["Attendee"][i])
+		e.Attendance = append(e.Attendance, StudentAttendance{StudentNumber: currentHomie, Attended: "true"})
 	}
-
 	if e.dataVal(strings.TrimPrefix(request.URL.Path, "/eventValidation/")) {
-		insert, _ := db.Exec("insert into sports(sportname, sportdescription) values(?, ?);", e.Sport, e.SportDescription)
-		fmt.Println(insert.RowsAffected())
-		sportID, err := insert.LastInsertId()
+		check := db.QueryRow("select ID from sports where SportName = ?", e.Sport)
+		var sportID int
+		err := check.Scan(&sportID)
 		if err != nil {
-			return
+			sportID = -1
 		}
-		result, err := db.Exec(
-			"update events set Points = ?,EventDescription = ?, EventDate = ?, RoomNumber = ?, Advisors = ?, Location = ?, LocationDescription = ?, SportID = ?",
-			e.Points,
-			e.EventDescription,
-			e.EventDate,
-			e.RoomNumber,
-			e.AdvisorNames,
-			e.Location,
-			e.Location,
-			sportID,
+		if sportID == -1 {
+			insert, _ := db.Exec("insert into sports(sportname, sportdescription) values(?, ?);", e.Sport, e.SportDescription)
+			fmt.Println(insert.RowsAffected())
+			getSportID, err := insert.LastInsertId()
+			if err != nil {
+				return
+			}
+			sportID = int(getSportID)
+		}
+		sID := strconv.Itoa(sportID)
+		points := strconv.Itoa(e.Points)
+		roomNumber := strconv.Itoa(e.RoomNumber)
+
+		result, err := db.Exec("update events set events.Points = ?, EventDescription = ?, EventDate = ?, RoomNumber = ?, Advisors = ?, Location = ?, LocationDescription = ?, SportID = ? where events.EventName = ?",
+			points, e.EventDescription, e.EventDate, roomNumber, e.AdvisorNames, e.Location, e.LocationDescription, sID, e.EventName,
 		)
 		if err != nil {
-			return
+			fmt.Println(err)
 		}
-		fmt.Println(result.RowsAffected())
 
-		//Write the code to make attendance struct -> database;
+		insert := db.QueryRow("select EventID from events where EventName = ?;", e.EventName)
+		insert.Scan(&e.EventID)
+		minion, _ := db.Exec("update userevents set Attended = 'false' where EventID = ?;", e.EventID)
+		fmt.Println(minion.RowsAffected())
+		for i := 0; i < len(e.Attendance); i++ {
+			fmt.Println(e.Attendance[i].StudentNumber)
+			vector, _ := db.Exec("update userevents set Attended = 'true' where EventID = ? and UserID = ?", e.EventID, e.Attendance[i].StudentNumber)
+			fmt.Println(vector.RowsAffected())
+		}
+		fmt.Println(e.Attendance)
+		fmt.Println(result.RowsAffected())
 	}
+	http.Redirect(writer, request, "../teacherEvents", 307)
 }
 
 func (e *EventInfo) dataVal(requestMethod string) bool {
-	if e.Points < 1 || e.EventDescription == "" || e.EventDate == "" || e.RoomNumber >= 1 || e.AdvisorNames == "" || e.Location == "" {
+	if e.Points < 0 || e.EventDescription == "" || e.EventDate == "" || e.RoomNumber > 1 || e.AdvisorNames == "" || e.Location == "" {
 		return false
 	}
 	for i := 0; i < len(e.Attendance); i++ {
-		if e.Attendance[i].StudentNumber < 1 || e.Attendance[i].StudentName == "" {
+		if e.Attendance[i].StudentNumber < 1 {
 			return false
 		}
 	}
 	return true
+}
+
+func (e *EventInfo) removeHandler(writer http.ResponseWriter, request *http.Request) {
+	e.EventName = request.FormValue("EventName")
+	eventID := db.QueryRow("select EventID from events where EventName = ?", e.EventName)
+	eventID.Scan(&e.EventID)
+	exec, err := db.Exec("update events set Active = 0 where EventID = ?", e.EventID)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println(exec.RowsAffected())
+	http.Redirect(writer, request, "./teacherEvents", 307)
 }
