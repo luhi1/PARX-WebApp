@@ -67,14 +67,14 @@
     </a>
 </nav>
 <main class="responsive">
-    <form>
+    <form method = "post">
         <article>
             <h5>Random Winners</h5>
             <h6>9th Grade: {{.RandomNinthWinner}}</h6>
             <h6>10th Grade: {{.RandomTenthWinner}}</h6>
             <h6>11th Grade: {{.RandomEleventhWinner}}</h6>
             <h6>12th Grade: {{.RandomTwelvthWinner}}</h6>
-            <button value="reroll" type="post" formaction="./reroll">Reroll</button>
+            <button value="reroll" formaction="./reroll">Reroll</button>
         </article>
     </form>
     <article>

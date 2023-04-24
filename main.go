@@ -47,6 +47,8 @@ func main() {
 	http.HandleFunc("/prizes", prize.GETHandler)
 	http.HandleFunc("/eventValidation/", eventInfo.valHandler)
 	http.HandleFunc("/removeEvent", eventInfo.removeHandler)
+	http.HandleFunc("/teacherCreateEvent/createEvent", eventInfo.createEvent)
+	http.HandleFunc("/reroll", winners.valHandler)
 	http.HandleFunc("/logout", func(writer http.ResponseWriter, request *http.Request) {
 		userInfo = UserData{}
 		http.Redirect(writer, request, "./login", 307)

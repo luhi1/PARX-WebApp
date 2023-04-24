@@ -73,7 +73,27 @@ func (w *Winners) POSTHandler(writer http.ResponseWriter, request *http.Request)
 }
 
 func (w *Winners) valHandler(writer http.ResponseWriter, request *http.Request) {
-	//@todo: Implement Data Validation.
+	insert, err := db.Query("SELECT users.UserID FROM users ORDER BY RAND() LIMIT 4;")
+	if err != nil {
+		fmt.Println()
+		return
+	}
+
+	i := 1
+	for insert.Next() {
+		var randWinner int
+		err := insert.Scan(&randWinner)
+		if err != nil {
+			return
+		}
+		exec, err := db.Exec("update grades set RandomWinner = ? where ID = ?", randWinner, i)
+		if err != nil {
+			return
+		}
+		i++
+		fmt.Println(exec.RowsAffected())
+	}
+	http.Redirect(writer, request, "./winners", 307)
 }
 
 func (w *Winners) dataVal(requestMethod string) bool {

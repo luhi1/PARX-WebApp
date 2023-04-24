@@ -27,7 +27,9 @@ CREATE TABLE `Users`
 insert into users(UserID, StudentName, `Points`, Password, GradeID)
 values
     (1354252, 'Michael', 10000, 'ypeBEsobvcr6wjGzmiPcTaeG7_gUfE5yuYB3ha_uSLs=', 2),
-    (1, 'Teacher', 1000000, 'ypeBEsobvcr6wjGzmiPcTaeG7_gUfE5yuYB3ha_uSLs=', 5);
+    (1, 'Teacher', 1000000, 'ypeBEsobvcr6wjGzmiPcTaeG7_gUfE5yuYB3ha_uSLs=', 5),
+    (3, 'Joe', 10000, 'ypeBEsobvcr6wjGzmiPcTaeG7_gUfE5yuYB3ha_uSLs=', 2),
+    (2, 'Carlo', 1000000, 'ypeBEsobvcr6wjGzmiPcTaeG7_gUfE5yuYB3ha_uSLs=', 3);
 CREATE TABLE `Prizes`
 (
     `ID`             BIGINT UNSIGNED   NOT NULL AUTO_INCREMENT,

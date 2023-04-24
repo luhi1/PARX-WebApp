@@ -146,7 +146,8 @@ func (e *EventInfo) valHandler(writer http.ResponseWriter, request *http.Request
 }
 
 func (e *EventInfo) dataVal(requestMethod string) bool {
-	if e.Points < 0 || e.EventDescription == "" || e.EventDate == "" || e.RoomNumber > 1 || e.AdvisorNames == "" || e.Location == "" {
+	fmt.Println(e)
+	if e.Points < 0 || e.EventDescription == "" || e.EventDate == "" || e.RoomNumber < 1 || e.AdvisorNames == "" || e.Location == "" {
 		return false
 	}
 	for i := 0; i < len(e.Attendance); i++ {
@@ -168,4 +169,50 @@ func (e *EventInfo) removeHandler(writer http.ResponseWriter, request *http.Requ
 	}
 	fmt.Println(exec.RowsAffected())
 	http.Redirect(writer, request, "./teacherEvents", 307)
+}
+
+func (e *EventInfo) createEvent(writer http.ResponseWriter, request *http.Request) {
+	err := request.ParseForm()
+	if err != nil {
+		fmt.Println(err)
+		fmt.Println(request.Form)
+		return
+	}
+	e.EventName = request.FormValue("EventName")
+	e.Points, _ = strconv.Atoi(request.FormValue("Points"))
+	e.EventDescription = request.FormValue("EventDescription")
+	e.EventDate = request.FormValue("EventDate")
+	e.RoomNumber, _ = strconv.Atoi(request.FormValue("RoomNumber"))
+	e.AdvisorNames = request.FormValue("AdvisorNames")
+	e.Location = request.FormValue("Location")
+	e.LocationDescription = request.FormValue("LocationDescription")
+	e.Sport = request.FormValue("Sport")
+	e.SportDescription = request.FormValue("SportDescription")
+	e.Active = true
+	if e.dataVal("") {
+		check := db.QueryRow("select ID from sports where SportName = ?", e.Sport)
+		var sportID int
+		check.Scan(&sportID)
+		if err != nil {
+			sportID = -1
+		}
+		if sportID == -1 {
+			insert, _ := db.Exec("insert into sports(sportname, sportdescription) values(?, ?);", e.Sport, e.SportDescription)
+			fmt.Println(insert.RowsAffected())
+			getSportID, err := insert.LastInsertId()
+			if err != nil {
+				return
+			}
+			sportID = int(getSportID)
+		}
+		result, err := db.Exec("insert into events(eventname, points, eventdescription, eventdate, roomnumber, advisors, location, locationdescription, sportid, active) VALUES (?,?,?,?,?,?,?,?,?,?)",
+			e.EventName, e.Points, e.EventDescription, e.EventDate, e.RoomNumber, e.AdvisorNames, e.Location, e.LocationDescription, sportID, e.Active)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		fmt.Println(result.RowsAffected())
+
+	}
+	http.Redirect(writer, request, "../teacherEvents", 307)
 }

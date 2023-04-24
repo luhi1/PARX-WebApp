@@ -68,8 +68,37 @@
   </a>
 </nav>
 <main class="responsive max">
+  <div class="field large prefix round fill">
+    <i class="front">search</i>
+    <input placeholder="Search text">
+    <div class="dropdown min">
+      <header class="fixed">
+        <div class="field large prefix suffix no-margin">
+          <i class="front">arrow_backward</i>
+          <input id = "searchbar" onkeyup="
+
+      let input = document.getElementById('searchbar').value
+      input=input.toLowerCase();
+      let x = document.getElementsByClassName('Event');
+
+      for (i = 0; i < x.length; i++) {
+          if (!x[i].id.toLowerCase().includes(input)) {
+              x[i].style.display = 'none'
+          }
+          else {
+            x[i].style.display = 'block';
+          }
+        }
+          "
+
+          placeholder="Search text">
+          <i class="front">close</i>
+        </div>
+      </header>
+    </div>
+  </div>
   {{range $index, $val := .}}
-    <div id="{{.EventName}}" name="{{.EventName}}">
+    <div class = "Event" id="{{.EventName}}" name="{{.EventName}}">
       <form method="post" action="/eventValidation/teacherEvents" class="large-padding responsive" id="EventImage"
             style="background-image:url(https://imgs.search.brave.com/t7Yvrb1hUdpgBGo5uFgr5D00fh3-MYTaJCYpsVW1vQk/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly93d3cu/Z2FubmV0dC1jZG4u/Y29tL3ByZXN0by8y/MDIwLzEwLzE4L05M/RUQvYWM5N2VlMTAt/YjhhMy00YTdjLWI1/OWYtNzkxZWRjYjZk/YWE3LUFQMjAyOTI2/NDY0MzQ5MjQuanBn/P2Nyb3A9NTEyMywy/ODgyLHgwLHkyNjAm/d2lkdGg9MzIwMCZo/ZWlnaHQ9MTgwMSZm/b3JtYXQ9cGpwZyZh/dXRvPXdlYnA);">
         <header class="blur">
