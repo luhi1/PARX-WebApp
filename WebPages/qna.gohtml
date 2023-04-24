@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="google" content="notranslate">
+    <title>Q & A</title>
+    <link href="https://cdn.jsdelivr.net/npm/beercss@3.1.1/dist/cdn/beer.min.css" rel="stylesheet">
+    <script type="module" src="https://cdn.jsdelivr.net/npm/beercss@3.1.1/dist/cdn/beer.min.js"></script>
+    <script type="module"
+            src="https://cdn.jsdelivr.net/npm/material-dynamic-colors@0.1.7/dist/cdn/material-dynamic-colors.min.js"></script>
+</head>
+<body>
+{{template "navbar" .}}
+<main class="responsive max">
+    <h1>QnA</h1>
+    <article>
+        <h2>
+            How do I get to the teacher side?
+        </h2>
+        <p class="bold">
+            To get to the teacher side you need a teacher account, determined by who ever is hosting your ParX instance.
+        </p>
+    </article>
+    <article>
+        <h2>
+            How do I sign up a new account?
+        </h2>
+        <p class="bold">
+            Go to the login page and click on the link to sign up, then fill in your information.
+        </p>
+    </article>
+    <article>
+        <h2>
+            How do I report problems on this website?
+        </h2>
+        <p class="bold">
+            Type in your problem below, and we will resolve the issue.
+        </p>
+        <form>
+            <input type="text" id="Email" value="Provide your e-mail.">
+            <input type="text" id="ProblemDesc" value="Describe your problem  here.">
+            <button type="submit" class="blur">submit</button>
+        </form>
+    </article>
+</main>
+</body>
+</html>
