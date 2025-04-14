@@ -1,3 +1,5 @@
+SET SQL_MODE='ORACLE';
+
 CREATE SCHEMA `fbla`;
 use fbla;
 CREATE TABLE `Grades`
