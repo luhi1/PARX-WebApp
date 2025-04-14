@@ -3,6 +3,8 @@
   <img alt="Showcasing PARX" src="static/PARX-showcase.gif">
 </p>
 
+## An effective system for administrators and students in tracking attendance at school events. 
+
 ## Features
 * Fully functioning login + signup screen.
 * Privacy through password hashing + salting and (sometimes even redunant) data validation.
