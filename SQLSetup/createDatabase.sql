@@ -1,4 +1,3 @@
-DROP SCHEMA `fbla`;
 CREATE SCHEMA `fbla`;
 use fbla;
 CREATE TABLE `Grades`
