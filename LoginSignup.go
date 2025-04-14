@@ -47,7 +47,7 @@ func (u *UserData) valHandler(writer http.ResponseWriter, request *http.Request)
 	u.passwordHash = hashPswd(request.FormValue("password"))
 
 	if err != nil || u.dataVal(strings.TrimPrefix(request.URL.Path, "/userValidation/")) {
-		insert := db.QueryRow("select users.studentname, users.Points, grades.GradeLevel from users left join grades on users.GradeID = grades.ID where users.UserID = ? && users.Password = ?;", strconv.Itoa(u.IdNumber), u.passwordHash)
+		insert := db.QueryRow("select Users.StudentName, Users.Points, Grades.GradeLevel from Users left join Grades on Users.GradeID = Grades.ID where Users.UserID = ? && Users.Password = ?;", strconv.Itoa(u.IdNumber), u.passwordHash)
 		insert.Scan(&u.Name, &u.Points, &u.Grade)
 		if u.Name == "" && u.Points == 0 && u.Grade == 0 {
 			u.valid = DisplayError{"Invalid Credentials"}
@@ -89,16 +89,17 @@ func (u *UserData) dataVal(requestMethod string) bool {
 	}
 
 	if valid && requestMethod == "signup" {
-		getGrade := db.QueryRow("select ID from grades where GradeLevel = ?;", u.Grade)
+		getGrade := db.QueryRow("select ID from Grades where GradeLevel = ?;", u.Grade)
 		getGrade.Scan(&u.Grade)
 		result, err := db.Exec(
-			"insert into users(UserID, StudentName, Password, Points, GradeID) values(?, ?, ?, 0, ?);",
+			"insert into Users(UserID, StudentName, Password, Points, GradeID) values(?, ?, ?, 0, ?);",
 			u.IdNumber,
 			u.Name,
 			u.passwordHash,
 			u.Grade,
 		)
 		if err != nil {
+			fmt.Println(err)
 			return false
 		}
 		fmt.Println(result.RowsAffected())

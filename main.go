@@ -84,6 +84,7 @@ func main() {
 		}
 	})
 
+	//USE ENVIORNMENT VARIABLE INSTEAD OF USING DEFAULT PASSWORD
 	initdb, err := sql.Open("mysql", "root:root@tcp(127.0.0.1:3306)/fbla")
 
 	if err != nil {

@@ -26,7 +26,7 @@ type Winner struct {
 
 func (w *Winners) GETHandler(writer http.ResponseWriter, request *http.Request) {
 	*w = Winners{}
-	rows, err := db.Query("select StudentName, Points, GradeLevel from users left join grades on users.GradeID = grades.ID order by GradeLevel, Points desc;")
+	rows, err := db.Query("select StudentName, Points, GradeLevel from Users left join Grades on Users.GradeID = Grades.ID order by GradeLevel, Points desc;")
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -46,7 +46,7 @@ func (w *Winners) GETHandler(writer http.ResponseWriter, request *http.Request) 
 		}
 	}
 	//select RandomWinner from grades left join users on users.UserID = grades.RandomWinner;
-	randWinners, err := db.Query("select RandomWinner, grades.GradeLevel from grades left join users on users.UserID = grades.RandomWinner")
+	randWinners, err := db.Query("select RandomWinner, Grades.GradeLevel from Grades left join Users on Users.UserID = Grades.RandomWinner")
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -73,7 +73,7 @@ func (w *Winners) POSTHandler(writer http.ResponseWriter, request *http.Request)
 }
 
 func (w *Winners) valHandler(writer http.ResponseWriter, request *http.Request) {
-	insert, err := db.Query("SELECT users.UserID FROM users ORDER BY RAND() LIMIT 4;")
+	insert, err := db.Query("SELECT Users.UserID FROM Users ORDER BY RAND() LIMIT 4;")
 	if err != nil {
 		fmt.Println()
 		return
@@ -86,7 +86,7 @@ func (w *Winners) valHandler(writer http.ResponseWriter, request *http.Request) 
 		if err != nil {
 			return
 		}
-		exec, err := db.Exec("update grades set RandomWinner = ? where ID = ?", randWinner, i)
+		exec, err := db.Exec("update Grades set RandomWinner = ? where ID = ?", randWinner, i)
 		if err != nil {
 			return
 		}
@@ -103,7 +103,7 @@ func (w *Winners) dataVal(requestMethod string) bool {
 
 func (w *Winners) report(writer http.ResponseWriter, request *http.Request) {
 	*w = Winners{}
-	rows, err := db.Query("select StudentName, Points, GradeLevel from users left join grades on users.GradeID = grades.ID order by GradeLevel, Points desc;")
+	rows, err := db.Query("select StudentName, Points, GradeLevel from Users left join Grades on Users.GradeID = Grades.ID order by GradeLevel, Points desc;")
 	if err != nil {
 		fmt.Println(err)
 		return

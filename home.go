@@ -24,7 +24,7 @@ type HomeData struct {
 func (h *HomeData) GETStudentHandler(writer http.ResponseWriter, request *http.Request) {
 	h.Prizes = []Prize{}
 	h.Winners = Winners{}
-	insert, err := db.Query("select PrizeName, PointThreshold from prizes")
+	insert, err := db.Query("select PrizeName, PointThreshold from Prizes")
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -35,7 +35,7 @@ func (h *HomeData) GETStudentHandler(writer http.ResponseWriter, request *http.R
 		h.Prizes = append(h.Prizes, p)
 	}
 
-	rows, err := db.Query("select StudentName, Points, GradeLevel from users left join grades on users.GradeID = grades.ID order by GradeLevel, Points desc;")
+	rows, err := db.Query("select StudentName, Points, GradeLevel from Users left join Grades on Users.GradeID = Grades.ID order by GradeLevel, Points desc;")
 	if err != nil {
 		fmt.Println(err)
 		return

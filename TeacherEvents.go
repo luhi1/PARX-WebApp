@@ -33,7 +33,7 @@ type EventInfo struct {
 func (e *EventInfo) GETHandler(writer http.ResponseWriter, request *http.Request) {
 	events := []EventInfo{}
 
-	rows, err := db.Query("select EventID, EventName,events.Points,EventDescription,EventDate,RoomNumber, Location, LocationDescription,sports.SportName,sports.SportDescription, events.Advisors, events.Active from events left join sports on events.SportID = sports.ID")
+	rows, err := db.Query("select EventID, EventName,Events.Points,EventDescription,EventDate,RoomNumber, Location, LocationDescription,Sports.SportName,Sports.SportDescription, Events.Advisors, Events.Active from Events left join Sports on Events.SportID = Sports.ID")
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -42,7 +42,7 @@ func (e *EventInfo) GETHandler(writer http.ResponseWriter, request *http.Request
 		*e = EventInfo{}
 		a := StudentAttendance{}
 		rows.Scan(&e.EventID, &e.EventName, &e.Points, &e.EventDescription, &e.EventDate, &e.RoomNumber, &e.Location, &e.LocationDescription, &e.Sport, &e.SportDescription, &e.AdvisorNames, &e.Active)
-		attendanceQ, err := db.Query("select users.UserID, users.StudentName, userevents.Attended from userevents left join users on userevents.UserID = users.UserID where EventID = ?", e.EventID)
+		attendanceQ, err := db.Query("select Users.UserID, Users.StudentName, UserEvents.Attended from UserEvents left join Users on UserEvents.UserID = Users.UserID where EventID = ?", e.EventID)
 		if err != nil {
 			fmt.Println(err)
 			return
@@ -104,14 +104,14 @@ func (e *EventInfo) valHandler(writer http.ResponseWriter, request *http.Request
 		e.Attendance = append(e.Attendance, StudentAttendance{StudentNumber: currentHomie, Attended: "true"})
 	}
 	if e.dataVal(strings.TrimPrefix(request.URL.Path, "/eventValidation/")) {
-		check := db.QueryRow("select ID from sports where SportName = ?", e.Sport)
+		check := db.QueryRow("select ID from Sports where SportName = ?", e.Sport)
 		var sportID int
 		err := check.Scan(&sportID)
 		if err != nil {
 			sportID = -1
 		}
 		if sportID == -1 {
-			insert, _ := db.Exec("insert into sports(sportname, sportdescription) values(?, ?);", e.Sport, e.SportDescription)
+			insert, _ := db.Exec("insert into Sports(SportName, SportDescription) values(?, ?);", e.Sport, e.SportDescription)
 			fmt.Println(insert.RowsAffected())
 			getSportID, err := insert.LastInsertId()
 			if err != nil {
@@ -123,21 +123,21 @@ func (e *EventInfo) valHandler(writer http.ResponseWriter, request *http.Request
 		points := strconv.Itoa(e.Points)
 		roomNumber := strconv.Itoa(e.RoomNumber)
 
-		result, err := db.Exec("update events set events.Points = ?, EventDescription = ?, EventDate = ?, RoomNumber = ?, Advisors = ?, Location = ?, LocationDescription = ?, SportID = ? where events.EventName = ?",
+		result, err := db.Exec("update Events set Events.Points = ?, EventDescription = ?, EventDate = ?, RoomNumber = ?, Advisors = ?, Location = ?, LocationDescription = ?, SportID = ? where Events.EventName = ?",
 			points, e.EventDescription, e.EventDate, roomNumber, e.AdvisorNames, e.Location, e.LocationDescription, sID, e.EventName,
 		)
 		if err != nil {
 			fmt.Println(err)
 		}
 
-		insert := db.QueryRow("select EventID from events where EventName = ?;", e.EventName)
+		insert := db.QueryRow("select EventID from Events where EventName = ?;", e.EventName)
 		insert.Scan(&e.EventID)
 
-		minion, _ := db.Exec("update userevents set Attended = 'false' where EventID = ?;", e.EventID)
+		minion, _ := db.Exec("update UserEvents set Attended = 'false' where EventID = ?;", e.EventID)
 		fmt.Println(minion.RowsAffected())
 		for i := 0; i < len(e.Attendance); i++ {
 			//Change it to add Points when the homies sign up for an event.
-			vector, _ := db.Exec("update userevents set Attended = 'true' where EventID = ? and UserID = ?", e.EventID, e.Attendance[i].StudentNumber)
+			vector, _ := db.Exec("update UserEvents set Attended = 'true' where EventID = ? and UserID = ?", e.EventID, e.Attendance[i].StudentNumber)
 			fmt.Println(vector.RowsAffected())
 		}
 		fmt.Println(e.Attendance)
@@ -161,16 +161,16 @@ func (e *EventInfo) dataVal(requestMethod string) bool {
 
 func (e *EventInfo) removeHandler(writer http.ResponseWriter, request *http.Request) {
 	e.EventName = request.FormValue("EventName")
-	eventID := db.QueryRow("select EventID from events where EventName = ?", e.EventName)
+	eventID := db.QueryRow("select EventID from Events where EventName = ?", e.EventName)
 	eventID.Scan(&e.EventID)
-	exec, err := db.Exec("update events set Active = 0 where EventID = ?", e.EventID)
+	exec, err := db.Exec("update Events set Active = 0 where EventID = ?", e.EventID)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 	fmt.Println(exec.RowsAffected())
 
-	insert, _ := db.Query("select UserID from userevents where Attended = 'false' and EventID = ?", e.EventID)
+	insert, _ := db.Query("select UserID from UserEvents where Attended = 'false' and EventID = ?", e.EventID)
 
 	var subtracters []int
 	for insert.Next() {
@@ -179,7 +179,7 @@ func (e *EventInfo) removeHandler(writer http.ResponseWriter, request *http.Requ
 		subtracters = append(subtracters, currentSubtracter)
 	}
 	for i := 0; i < len(subtracters); i++ {
-		addition, _ := db.Exec("update users set Points = Points-10 where userID = ?", subtracters[i])
+		addition, _ := db.Exec("update Users set Points = Points-10 where UserID = ?", subtracters[i])
 		fmt.Println(addition.RowsAffected())
 	}
 	http.Redirect(writer, request, "./teacherEvents", 307)
@@ -204,14 +204,14 @@ func (e *EventInfo) createEvent(writer http.ResponseWriter, request *http.Reques
 	e.SportDescription = request.FormValue("SportDescription")
 	e.Active = true
 	if e.dataVal("") {
-		check := db.QueryRow("select ID from sports where SportName = ?", e.Sport)
+		check := db.QueryRow("select ID from Sports where SportName = ?", e.Sport)
 		var sportID int
 		check.Scan(&sportID)
 		if err != nil {
 			sportID = -1
 		}
 		if sportID == -1 {
-			insert, _ := db.Exec("insert into sports(sportname, sportdescription) values(?, ?);", e.Sport, e.SportDescription)
+			insert, _ := db.Exec("insert into Sports(SportName, SportDescription) values(?, ?);", e.Sport, e.SportDescription)
 			fmt.Println(insert.RowsAffected())
 			getSportID, err := insert.LastInsertId()
 			if err != nil {
@@ -219,7 +219,7 @@ func (e *EventInfo) createEvent(writer http.ResponseWriter, request *http.Reques
 			}
 			sportID = int(getSportID)
 		}
-		result, err := db.Exec("insert into events(eventname, Points, eventdescription, eventdate, roomnumber, advisors, location, locationdescription, sportid, active) VALUES (?,?,?,?,?,?,?,?,?,?)",
+		result, err := db.Exec("insert into Events(EventName, Points, EventDescription, EventDate, RoomNumber, Advisors, Location, LocationDescription, SportID, Active) VALUES (?,?,?,?,?,?,?,?,?,?)",
 			e.EventName, e.Points, e.EventDescription, e.EventDate, e.RoomNumber, e.AdvisorNames, e.Location, e.LocationDescription, sportID, e.Active)
 		if err != nil {
 			fmt.Println(err)
