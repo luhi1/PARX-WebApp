@@ -9,7 +9,7 @@ CREATE TABLE `Grades`
     `RandomWinner` MEDIUMINT UNSIGNED NOT NULL,
     PRIMARY KEY (`ID`)
 );
-insert into grades(GradeLevel, RandomWinner)
+insert into Grades(GradeLevel, RandomWinner)
 values
     (9, 1354252),
     (10, 1354252),
@@ -25,7 +25,7 @@ CREATE TABLE `Users`
     `GradeID`     BIGINT not null,
     PRIMARY KEY (`UserID`)
 );
-insert into users(UserID, StudentName, `Points`, Password, GradeID)
+insert into Users(UserID, StudentName, `Points`, Password, GradeID)
 values
     (1354252, 'Michael', 10000, 'ypeBEsobvcr6wjGzmiPcTaeG7_gUfE5yuYB3ha_uSLs=', 2),
     (1, 'Teacher', 1000000, 'ypeBEsobvcr6wjGzmiPcTaeG7_gUfE5yuYB3ha_uSLs=', 5),
@@ -48,7 +48,7 @@ CREATE TABLE `Prizes`
     `PointThreshold` SMALLINT UNSIGNED NOT NULL,
     PRIMARY KEY (`ID`)
 );
-insert into prizes(PrizeName, PointThreshold)
+insert into Prizes(PrizeName, PointThreshold)
 values
     ('Ice Cream', 100),
     ('School Camera', 500),
@@ -62,7 +62,7 @@ CREATE TABLE `UserPrizes`
     FOREIGN KEY (PrizeID) references Prizes (ID),
     FOREIGN KEY (UserID) references Users (UserID)
 );
-insert into userprizes(PrizeID, UserID, Attended)
+insert into UserPrizes(PrizeID, UserID, Attended)
 values
     (1, 1354252, 'true'),
     (1, 123, 'true'),
@@ -86,7 +86,7 @@ CREATE TABLE `Sports`
     `SportDescription` TEXT            NOT NULL,
     PRIMARY KEY (`ID`)
 );
-insert into sports(SportName, SportDescription)
+insert into Sports(SportName, SportDescription)
 values
     ('Football', 'Throw ball fast.'),
     ('Soccer', 'Kick ball fast.'),
@@ -110,7 +110,7 @@ CREATE TABLE `Events`
     PRIMARY KEY (`EventID`),
     FOREIGN KEY (`SportID`) REFERENCES Sports (ID)
 );
-insert into events(EventName, Points, EventDescription, EventDate, RoomNumber, Advisors, Location, LocationDescription, SportID, Active)
+insert into Events(EventName, Points, EventDescription, EventDate, RoomNumber, Advisors, Location, LocationDescription, SportID, Active)
 values
     ('Matchup 1', 10000, 'Eldo v Atech', '1000-01-02', 1, 'Joe', 'Here', 'Here', 1, true),
     ('Matchup 2', 20000, 'Eldo v Clark', '2000-02-02', 2, 'Joe', 'Here', 'Here', 2, true),
@@ -131,7 +131,7 @@ CREATE TABLE `UserEvents`
     FOREIGN KEY (EventID) references Events (EventID),
     FOREIGN KEY (UserID) references Users (UserID)
 );
-create table bugs(
+create table Bugs(
     `Bugs` text,
     `ID` BIGINT AUTO_INCREMENT,
     PRIMARY KEY (ID)
@@ -170,10 +170,10 @@ AlTER TABLE `Grades`
     ADD FOREIGN KEY (RandomWinner) REFERENCES Users (UserID);
 ALTER TABLE `Users`
     ADD FOREIGN KEY (`GradeID`) REFERENCES Grades (ID);
-select * from grades;
-select * from users;
-select * from prizes;
+select * from Grades;
+select * from Users;
+select * from Prizes;
 select * from UserPrizes;
-select * from sports;
-select * from events;
-select * from userevents;
+select * from Sports;
+select * from Events;
+select * from UserEvents;
