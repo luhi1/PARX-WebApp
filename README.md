@@ -63,6 +63,6 @@
     cd path/to/extracted/PARX-WebApp-v-1.0.1
     ./PARX-WebApp
 ## Built By
-* @givingdonation - Carlo Allietti (Dev 1)
+* @givingdonation - Carlo (Dev 1)
 * @luhi1 - Michael Borov (Dev 2)
 * @ChadicalRadical - Chad Khan (Graphic Design)
